@@ -23,3 +23,10 @@ engine.execute(f"CREATE SCHEMA IF NOT EXISTS {schema_name}")
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
