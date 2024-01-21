@@ -1,0 +1,10 @@
+project/
+├── main.py
+├── service/
+│   ├── __init__.py
+│   ├── models/
+│   │   ├── __init__.py
+│   │   ├── licence.py
+│   │   └── ...
+│   └── user_service.py
+└── ...
