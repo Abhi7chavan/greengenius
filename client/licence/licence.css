@@ -25,12 +25,16 @@
 }
 
 .dropdown:hover .dropdown-menu {
-    display: block;
+    max-height: 200px;
+    overflow-y: auto;
 }
+
+
 
 .dropdown-menu li {
     list-style: none;
     margin: 5px 0;
+  
 }
 
 .dropdown-menu li a {
@@ -52,21 +56,28 @@
 }
 
   body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f4f4f4;
+            /* font-family: 'Arial', sans-serif; */
+            font-family: 'Poppins', sans-serif;
+            /* background-color: #f4f4f4; */
+            background-image:url(/client/images/wp3946482-3.jpg);
+            background-size: cover;
+            background-repeat: no-repeat;
             margin: 0;
             display: flex;
+            backface-visibility: initial;
             align-items: center;
             justify-content: center;
             height: 100vh;
+
         }
 
         form {
             background-color: #fff;
             border-radius: 8px;
-            padding: 20px;
+            padding: 15px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             width: 300px;
+            
         }
 
         .form-title {
@@ -75,6 +86,7 @@
             margin-bottom: 20px;
             font-size: 18px;
             font-weight: bold;
+            font-family: 'Poppins', sans-serif;
         }
 
         label {
@@ -85,8 +97,8 @@
 
         input, select {
             width: 100%;
-            padding: 5px;
-            margin-bottom: 16px;
+            padding: 2px;
+            margin-bottom: 12px;
             box-sizing: border-box;
             border: 1px solid #ccc;
             border-radius: 4px;

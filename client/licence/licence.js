@@ -3,6 +3,7 @@
     var selectedItems = []; 
 
     function generateLicense() {
+        clearMessages()
         // Collect form data
         const formData = {
             name: document.getElementById('name').value,
@@ -25,8 +26,6 @@
         document.getElementById('errorMessage').innerText = '';
         
         console.log(formData);
-
-
         fetch('http://127.0.0.1:8000/submit_license',{
             method: 'POST',
             headers: {
@@ -36,9 +35,20 @@
         })
         .then(response => response.json())
         .then(data => {
+            debugger
+            if (data.statuscode != 200){
+                document.getElementById('errorMessage').innerText =data.message.error;
+            }
+            else{
             console.log('Success:', data);
             document.getElementById('successMessage').innerText = 'Form submitted successfully!';
             document.getElementById('successMessage').style.display = 'block'; // Show the success message
+            setTimeout(() => {
+                window.location.reload();
+            }, 500); 
+         
+            }
+            
 
         })
         .catch((error) => {
@@ -46,15 +56,12 @@
             // Handle errors here
         });
     }
-        // document.getElementById('errorMessage').innerText = '';
-        // Example: Display the generated license data in the console
-        
 
-        // You can send this data to your backend for further processing
-
-        // Add your code to send the formData to the server or perform other actions
-
-
+    function clearMessages() {
+        document.getElementById('successMessage').innerText = ''; // Clear success message
+        document.getElementById('errorMessage').innerText = ''; // Clear error message
+    }
+       
     $(document).ready(function () {
         // Event handler for dropdown item click
         $('#householdItems li').click(function () {

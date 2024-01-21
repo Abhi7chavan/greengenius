@@ -8,6 +8,7 @@
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="licence.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap" rel="stylesheet">
     <script src="licence.js"></script>
 </head>
 <body>
@@ -15,19 +16,19 @@
 <form id="licenseForm" action="http://127.0.0.1:8000/submit_license" method="POST">
     <div class="form-title">GreenGenius License</div>
 
-    <label for="name">First Name:</label>
+    <label for="name">First Name</label>
     <input type="text" id="name" name="name" required oninvalid="this.setCustomValidity('Please enter your first name')" oninput="setCustomValidity('')">
 
-    <label for="lastname">Last Name:</label>
+    <label for="lastname">Last Name</label>
     <input type="text" id="lastname" name="lastname" required oninvalid="this.setCustomValidity('Please enter your last name')" oninput="setCustomValidity('')">
 
-    <label for="username">Username:</label>
+    <label for="username">Username</label>
     <input type="text" id="username" name="username" required oninvalid="this.setCustomValidity('Please enter your Username')" oninput="setCustomValidity('')">
 
-    <label for="email">Username:</label>
+    <label for="email">Email</label>
     <input type="text" id="email" name="email" required oninvalid="this.setCustomValidity('Please enter your email')" oninput="setCustomValidity('')">
 
-    <label for="location">Location:</label>
+    <label for="location">Location</label>
     <input type="text" id="location" name="location" required oninvalid="this.setCustomValidity('Please enter your location')" oninput="setCustomValidity('')">
 
     <div class="checkbox-group">
@@ -80,9 +81,5 @@
     <div id="successMessage" class="success-message" style="color: green;"></div>
     <div id="errorMessage" style="color: red;"></div>
 </form>
-
-
-
-
 </body>
 </html>
