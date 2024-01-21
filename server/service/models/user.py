@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String, create_engine, ARRAY, DateTime, func
-from models.database import Base, engine
+from service.models.database import Base, engine
 from pydantic import BaseModel
 
 class User(Base):
