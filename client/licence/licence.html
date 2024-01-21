@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GreenGenius License Form</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="licence.css">
+    <script src="licence.js"></script>
+</head>
+<body>
+
+<form id="licenseForm" action="http://127.0.0.1:8000/submit_license" method="POST">
+    <div class="form-title">GreenGenius License</div>
+
+    <label for="name">First Name:</label>
+    <input type="text" id="name" name="name" required oninvalid="this.setCustomValidity('Please enter your first name')" oninput="setCustomValidity('')">
+
+    <label for="lastname">Last Name:</label>
+    <input type="text" id="lastname" name="lastname" required oninvalid="this.setCustomValidity('Please enter your last name')" oninput="setCustomValidity('')">
+
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" required oninvalid="this.setCustomValidity('Please enter your Username')" oninput="setCustomValidity('')">
+
+    <label for="email">Username:</label>
+    <input type="text" id="email" name="email" required oninvalid="this.setCustomValidity('Please enter your email')" oninput="setCustomValidity('')">
+
+    <label for="location">Location:</label>
+    <input type="text" id="location" name="location" required oninvalid="this.setCustomValidity('Please enter your location')" oninput="setCustomValidity('')">
+
+    <div class="checkbox-group">
+        <label>
+            <input type="checkbox" id="electric" name="information" value="electric">
+            Electric
+        </label>
+        <label>
+            <input type="checkbox" id="water" name="information" value="water">
+            Water
+        </label>
+        <label>
+            <input type="checkbox" id="weather" name="information" value="weather">
+            Weather
+        </label>
+    </div>
+
+    <div class="container">                                 
+        <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Household items
+                <span class="caret"></span>
+            </button>
+            <p><span id="selectedItems"></span></p>
+            <ul class="dropdown-menu" id="householdItems">
+                <li><a href="#">Refrigerator</a></li>
+                <li><a href="#">LED Light Bulbs</a></li>
+                <li><a href="#">Smart Thermostat</a></li>
+                <li><a href="#">Laptop/Desktop Computer</a></li>
+                <li><a href="#">Television</a></li>
+                <li><a href="#">Washing Machine</a></li>
+                <li><a href="#">Dishwasher</a></li>
+                <li><a href="#">Microwave Oven</a></li>
+                <li><a href="#">Air Purifier</a></li>
+                <li><a href="#">Ceiling Fans</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <label for="submeters">Number of Submeters:</label>
+    <select id="submeters" name="submeters">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <!-- Add more options as needed -->
+    </select>
+
+    <button type="button" onclick="generateLicense()">Generate License</button>
+    <div id="successMessage" class="success-message" style="color: green;"></div>
+    <div id="errorMessage" style="color: red;"></div>
+</form>
+
+
+
+
+</body>
+</html>
