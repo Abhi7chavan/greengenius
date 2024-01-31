@@ -19,8 +19,9 @@ class User(UserBase):
     ConsumptionReport = Column(ARRAY(String))
     HouseholdItems = Column(ARRAY(String))
     SubmeterCount = Column(Integer)
-    created_at = Column(DateTime(timezone=True), server_default=func.now())
-    updated_at = Column(DateTime(timezone=True), onupdate=func.now())
+    created_at = Column(Integer, server_default=func.extract('epoch', func.now()))
+    updated_at = Column(Integer, onupdate=func.extract('epoch', func.now()), server_default='0') 
+
 
 class UserData(BaseModel):
     username: str

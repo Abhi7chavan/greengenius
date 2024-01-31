@@ -1,10 +1,12 @@
+import json
 from service.models.licence import LicenseData
 from service.models.licence import LicenseDB
 from service.models.user import User
-from service.user_service import create_user, UserData
+from service.user_service import create_user, UserData, get_user
+from service.permission_service import create_permission
 from fastapi import APIRouter, HTTPException
 from sqlalchemy.orm import Session
-
+from datetime import datetime, timezone, timedelta
 from service.models.database import get_db
 from fastapi import FastAPI, Depends
 
@@ -43,26 +45,21 @@ async def submit_license(data: LicenseData,db: Session = Depends(get_db)):
             "HouseholdItems": data.householdItems,
             "SubmeterCount": data.submeters
         }
-        user = User(**user_data)
-        db.add(user)
-        db.commit()
-        user_data = UserData(
-        username=data.username,
-        email=data.email,
-        password=f"Admin{data.username}",  # You might want to generate a password here
-        location=data.location,
-        ConsumptionReport=data.information,
-        HouseholdItems=data.householdItems,
-        SubmeterCount=data.submeters
-        )
+
         
-        await create_user(user_data, db)
+        result = await create_user(user_data, db)
+        data = await get_user(result['message'],db)
+        data= json.loads(data)
+        permission = await create_permission(data,db)
+        # print(permission)
+        
+        
         
         #create_permisson for user
         
 
         # Return the created license
-        return {"statuscode":200,"message":f"User {data.username} successfully created!"}
+        return {"statuscode":200,"message":f"User successfully created!"}
 
     except Exception as e:
         # Handle any exceptions (e.g., validation errors, database errors)
