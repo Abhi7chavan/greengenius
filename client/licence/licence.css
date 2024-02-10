@@ -60,6 +60,7 @@
             font-family: 'Poppins', sans-serif;
             /* background-color: #f4f4f4; */
             background-image:url(/client/images/wp3946482-3.jpg);
+            background-color: #dedada;
             background-size: cover;
             background-repeat: no-repeat;
             margin: 0;
@@ -142,4 +143,19 @@
     border: 1px solid #28a745;
     border-radius: 5px;
     background-color: #d4edda; /* Light green background color */
+}
+
+
+.next{
+    margin-top: 10px;
+    font-size: 13px;
+    background-color: #28a745;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.next:hover{
+    margin-top: 10px;
+    font-size: 13px;
+    background-color: #318e47;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }

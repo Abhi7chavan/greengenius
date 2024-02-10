@@ -1,17 +1,20 @@
 body {
-    background-color: #c3c3c3;
+    background-color: #dedada;
     margin: 0;
     padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
+    background-image: url(/client/images/household1.jpeg);
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
 h1 {
     text-align: center;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    color: #333;
+    color: #000000;
     justify-content: center;
     position: absolute;
     margin-bottom: 700px;
@@ -47,6 +50,7 @@ select {
     border: 1px solid #ccc;
     border-radius: 4px;
     margin-bottom: 10px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 button {
@@ -57,6 +61,7 @@ button {
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    margin-left: 10px;
 }
 
 button:hover {
@@ -85,3 +90,23 @@ button:hover {
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-weight: bold;
 }
+.Submit {
+    text-align: center;
+    margin-top: 20px;
+}
+
+#submitButton {
+    padding: 10px;
+    font-size: 16px;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#submitButton:hover {
+    background-color: #45a049;
+}
+

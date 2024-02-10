@@ -1,52 +1,53 @@
-// const backendData = {
-//     submeters: 2,
-//     items: ['Fridge', 'AC', 'PC'],
-// };
 
+
+// Initialize submeterNames as an empty array
+let submeterNames = [];
+
+// Declare backendData outside the fetchUserId function
+let backendData = {};
 
 function fetchUserId() {
-    debugger
     const username = localStorage.getItem('username');
 
     if (!username) {
         console.error('User ID not found in localStorage.');
-        return;
+        return Promise.reject('User ID not found in localStorage.');
     }
 
-    fetch(`http://127.0.0.1:8000/get_user/${username}`, {
-        method: 'GET',  // Or 'POST' if you want to send data
+    return fetch(`http://127.0.0.1:8000/get_user/${username}`, {
+        method: 'GET',
         headers: {
             'Content-Type': 'application/json',
         },
-        // If using 'POST', stringify the body
-        // body: JSON.stringify(formData),
     })
     .then(response => response.json())
     .then(data => {
         if (data.statuscode !== 200) {
             document.getElementById('errorMessage').innerText = data.message;
+            return Promise.reject(data.message);
         } else {
             console.log('Success:', data);
 
-            // Extract relevant data from the response
             const submeterCount = data.data.SubmeterCount;
             const householdItems = data.data.HouseholdItems;
 
-            // Create the backendData object
-            const backendData = {
+            // Update submeterNames with fetched data
+            submeterNames = Array.from({ length: submeterCount }, (_, i) => `Submeter ${i + 1}`);
+
+            // Update the global backendData variable
+            backendData = {
                 submeters: submeterCount,
                 items: householdItems,
             };
 
             console.log('Backend Data:', backendData);
-            return backendData
-            // Do something with the backendData object
+            return backendData;
         }
     })
     .catch(error => {
         console.error('Error:', error);
-        // Handle error appropriately, e.g., show an error message
         document.getElementById('errorMessage').innerText = 'Error fetching user data.';
+        return Promise.reject('Error fetching user data.');
     });
 }
 
@@ -175,17 +176,9 @@ function submitData() {
 window.onload = function () {
     fetchUserId()
         .then(backendData => {
-            // Use the fetched backendData to create submeterNames
-            const submeterNames = Array.from({ length: backendData.submeters }, (_, i) => `Submeter ${i + 1}`);
-            console.log('Submeter Names:', submeterNames);
-
-            // Call createSubmeterOptions with the backendData
             createSubmeterOptions();
-
-            // Call any other functions or perform actions using the backendData or submeterNames here
         })
         .catch(error => {
-            // Handle errors if needed
             console.error('Error in window.onload:', error);
         });
 };
