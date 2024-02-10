@@ -1,10 +1,58 @@
-const backendData = {
-    submeters: 2,
-    items: ['Fridge', 'AC', 'PC'],
-};
+// const backendData = {
+//     submeters: 2,
+//     items: ['Fridge', 'AC', 'PC'],
+// };
+
+
+function fetchUserId() {
+    debugger
+    const username = localStorage.getItem('username');
+
+    if (!username) {
+        console.error('User ID not found in localStorage.');
+        return;
+    }
+
+    fetch(`http://127.0.0.1:8000/get_user/${username}`, {
+        method: 'GET',  // Or 'POST' if you want to send data
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        // If using 'POST', stringify the body
+        // body: JSON.stringify(formData),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.statuscode !== 200) {
+            document.getElementById('errorMessage').innerText = data.message;
+        } else {
+            console.log('Success:', data);
+
+            // Extract relevant data from the response
+            const submeterCount = data.data.SubmeterCount;
+            const householdItems = data.data.HouseholdItems;
+
+            // Create the backendData object
+            const backendData = {
+                submeters: submeterCount,
+                items: householdItems,
+            };
+
+            console.log('Backend Data:', backendData);
+            return backendData
+            // Do something with the backendData object
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        // Handle error appropriately, e.g., show an error message
+        document.getElementById('errorMessage').innerText = 'Error fetching user data.';
+    });
+}
+
 
 const associations = {};
-const submeterNames = Array.from({ length: backendData.submeters }, (_, i) => `Submeter ${i + 1}`);
+// const submeterNames = Array.from({ length: backendData.submeters }, (_, i) => `Submeter ${i + 1}`);
 
 function createSubmeterOptions() {
     const submeterContainer = document.getElementById('submeterContainer');
@@ -16,15 +64,15 @@ function createSubmeterOptions() {
 
         const blockTitle = document.createElement('div');
         blockTitle.className = 'blockTitle';
-        blockTitle.innerText = submeterNames[i];
+        // blockTitle.innerText = submeterNames[i];
 
         const submeterNameInput = document.createElement('input');
-        submeterNameInput.type = 'text';
+        // submeterNameInput.type = 'text';
         submeterNameInput.value = submeterNames[i];
-        submeterNameInput.placeholder = 'Submeter Name';
+        submeterNameInput.placeholder = 'Enter Submeter Name';
         submeterNameInput.addEventListener('input', function () {
             submeterNames[i] = submeterNameInput.value;
-            blockTitle.innerText = submeterNames[i];
+            // blockTitle.innerText = submeterNames[i];
         });
 
         const submeterDiv = document.createElement('div');
@@ -102,7 +150,7 @@ function associate(submeterSelect, submeterIndex) {
             }
         }
     }
-
+    
     createSubmeterOptions();
 }
 
@@ -121,6 +169,23 @@ function getRemainingItems() {
 
 function submitData() {
     console.log('Associations:', associations);
+    alert("Successfully submited data!")
 }
 
-window.onload = createSubmeterOptions;
+window.onload = function () {
+    fetchUserId()
+        .then(backendData => {
+            // Use the fetched backendData to create submeterNames
+            const submeterNames = Array.from({ length: backendData.submeters }, (_, i) => `Submeter ${i + 1}`);
+            console.log('Submeter Names:', submeterNames);
+
+            // Call createSubmeterOptions with the backendData
+            createSubmeterOptions();
+
+            // Call any other functions or perform actions using the backendData or submeterNames here
+        })
+        .catch(error => {
+            // Handle errors if needed
+            console.error('Error in window.onload:', error);
+        });
+};
