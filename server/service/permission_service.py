@@ -58,7 +58,6 @@ async def create_permission(userdata, db: Session = Depends(get_db)):
 @router.get("/get_permission/{userid}")
 async def get_permission(userid:str, db: Session = Depends(get_db)):
     permission = db.query(Permission).filter(Permission.userid == userid).first()
-    print(permission)
     if permission:
             user_dict = {column.key: getattr(permission, column.key) for column in Permission.__table__.columns}
             return {"statuscode": 200, "data": user_dict}

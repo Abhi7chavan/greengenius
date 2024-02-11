@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="home.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+    <title>Energy Management System</title>
+</head>
+
+<body>
+    <div class="header">
+        <img src="/client/images/—Pngtree—windmill environmental energy illustration_4609758.png" width="90px" height="70px" alt="" srcset="">
+        <h1 class="company-name">GreenGenius</h1>
+        <div class="dropdown">
+            <img class="dropbtn" src="/client/images/dropdown.png" style="width: 30px; height: 30px;">
+            <div class="dropdown-content">
+                <a href="#">Settings</a>
+                <a href="/licencepage.html">License</a>
+                <a href="#">Logout</a>
+            </div>
+        </div>
+    </div>
+    <div class="tabs">
+        <button id="electric-tab" class="tab" onclick="openTab('electric')">Electric</button>
+        <button id="water-tab" class="tab" onclick="openTab('water')">Water</button>
+        <button id="weather-tab" class="tab" onclick="openTab('weather')">Weather</button>
+    </div>
+    <div class="tab-content">
+        <div id="electric-content" class="tab-pane">
+            <!-- Electric tab content goes here -->
+            <p>Electric Tab Content</p>
+        </div>
+        <div id="water-content" class="tab-pane">
+            <!-- Water tab content goes here -->
+            <p>Water Tab Content</p>
+        </div>
+        <div id="weather-content" class="tab-pane">
+            <!-- Weather tab content goes here -->
+            <p>Weather Tab Content</p>
+        </div>
+    </div>
+
+    <script src="home.js"></script>
+</body>
+
+</html>

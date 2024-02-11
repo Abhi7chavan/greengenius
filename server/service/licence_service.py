@@ -49,7 +49,6 @@ async def submit_license(data: LicenseData,db: Session = Depends(get_db)):
         result = await create_user(user_data, db)
         userdata = await get_user(result['message'],db)
         permission = await create_permission(userdata['data'],db)
-        # print(permission)
         
         
 

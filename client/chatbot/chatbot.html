@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="chatbot.css">
+  <title>Your Home Page</title>
+</head>
+<body>
+  <!-- Your existing body content -->
+
+  <!-- Floating chat button -->
+  <div id="chat-button" onclick="toggleChat()">
+    <img src="chat-icon.png" alt="Chat Icon">
+  </div>
+
+  <!-- Chat container (initially hidden) -->
+  <div id="chat-container">
+    <div id="chat-messages"></div>
+    <input type="text" id="user-input" placeholder="Type your message...">
+    <button onclick="sendMessage()">Send</button>
+  </div>
+
+  <!-- Include your existing JavaScript files -->
+  <script src="your-existing-file1.js"></script>
+  <script src="your-existing-file2.js"></script>
+
+  <!-- Include the new chatbot.js file -->
+  <script src="https://cdn.jsdelivr.net/npm/dialogflow-fulfillment"></script>
+  <script src="chatbot.js"></script>
+</body>
+</html>

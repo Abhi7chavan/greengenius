@@ -33,8 +33,36 @@ app.get('/main.css', (req, res) => {
 app.get('/main.js', (req, res) => {
     res.sendFile(path.join(__dirname,'submeter', 'main.js'));
 });
+app.get('/login.css', (req, res) => {
+    res.sendFile(path.join(__dirname,'login', 'login.css'));
+});
+
+app.get('/login.html', (req, res) => {
+    res.sendFile(path.join(__dirname,'login', 'login.html'));
+});
+
+app.get('/login.js', (req, res) => {
+    res.sendFile(path.join(__dirname,'login', 'login.js'));
+});
+
+app.get('/home.html', (req, res) => {
+    res.sendFile(path.join(__dirname,'home', 'home.html'));
+});
 
 
+app.get('/home.css', (req, res) => {
+    res.sendFile(path.join(__dirname,'home', 'home.css'));
+});
+
+app.get('/home.js', (req, res) => {
+    res.sendFile(path.join(__dirname,'home', 'home.js'));
+});
+
+app.get('/licencepage.html', (req, res) => {
+    res.sendFile(path.join(__dirname,'home', 'licencepage.html'));
+});
+
+app.use('/client/images', express.static(path.join(__dirname, 'images')));
 
 
 // Start the server
