@@ -38,3 +38,12 @@ def create_submeter(
     except Exception as e:
         return {"statuscode": 400,"message": "Bad request"}
         
+
+@router.get("/get_submeters/{username}")
+async def get_submeter(username: str, db: Session = Depends(get_db)):
+    submeter = db.query(Submeter).filter(Submeter.username == username).first()
+
+    if not submeter:
+        raise HTTPException(status_code=404, detail=f"Submeter with username {username} not found")
+
+    return {"statuscode": 200, "data": submeter}

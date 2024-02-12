@@ -1,6 +1,25 @@
 // Global variable to store permission data
 let userPermissions = null;
 
+document.addEventListener('DOMContentLoaded', () => {
+    username = localStorage.getItem("username")
+    const greetingMessage = `Hello, ${username}! Welcome.`;
+
+    // Get the greeting container and message element
+    const greetingContainer = document.getElementById("greeting-container");
+    const greetingMessageElement = document.getElementById("greeting-message");
+
+    // Set the greeting message
+    greetingMessageElement.textContent = greetingMessage;
+
+    // Show the greeting container
+    greetingContainer.style.display = "block";
+
+    // Automatically close after 5 seconds
+    setTimeout(() => {
+        greetingContainer.style.display = "none";
+    }, 7000);
+});
 // Fetch user permissions when the page loads
 fetchUserPermissions();
 
@@ -81,4 +100,24 @@ function displayCustomAlert(message) {
 function closeAlertModal() {
     const alertModal = document.getElementById('customAlertModal');
     alertModal.style.display = 'none';
+}
+
+function simulateUserLogin() {
+    // Get the treeDiv element
+    const treeDiv = document.getElementById('treeDiv');
+
+    // Display the treeDiv
+    treeDiv.classList.remove('hidden');
+
+    // You can customize the greeting message based on the user's information
+    const greetingMessage = `"Hello, Abhishek 🌲 Let's grow a better world together."`;
+
+    // Set the greeting message
+    const greetingElement = document.getElementById('greeting');
+    greetingElement.textContent = greetingMessage;
+
+    // Automatically close the treeDiv after 5 seconds
+    setTimeout(() => {
+        treeDiv.classList.add('hidden');
+    }, 5000); // 5000 milliseconds (5 seconds)
 }
