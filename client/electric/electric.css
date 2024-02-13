@@ -79,3 +79,33 @@ header {
     margin-bottom: 8px;
     color: #555;
 }
+
+
+/* ... (previous styles) */
+
+.outer-container {
+    width: calc(33.33% - 20px);
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden; /* Ensure borders don't overlap with other flex items */
+}
+
+.submeter-block {
+    padding: 10px;
+    flex: 1;
+}
+
+.submeter-name {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center; /* Align icon and text vertically */
+}
+
+.submeter-name i {
+    margin-right: 10px; /* Adjust margin for spacing between icon and text */
+}

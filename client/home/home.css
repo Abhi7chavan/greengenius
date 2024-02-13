@@ -12,13 +12,14 @@ body {
     align-items: center;
     padding: 10px;
     background-color: #9ccff0;
+    width: 99%;
 }
 
 .company-name {
-    color:black;
+    color: black;
     margin: 0;
     font-size: 30px;
-   font-family: 'Baloo 2', sans-serif;
+    font-family: 'Baloo 2', sans-serif;
 }
 
 .dropdown {
@@ -63,13 +64,14 @@ body {
     background-color: #3498db;
     border-radius: 5px 5px 0 0;
     overflow: hidden;
+    width: 100%;
 }
 
 .tab {
     flex: 1;
     padding: 10px;
     cursor: pointer;
-    border: none;
+    border: 1px rgb(126, 198, 224) solid;
     outline: none;
     background-color: inherit;
     color: #fff;
@@ -87,7 +89,8 @@ body {
     background-color: #fff;
     border-radius: 0 0 5px 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    height: 600px;
+    width: 98%;
+    height: max-content;
 }
 
 .tab-pane {
@@ -100,13 +103,12 @@ body {
 
 .no-permission-message {
     padding: 20px;
-    background-color: #ffcccc; /* Light red background */
-    color: #990000; /* Dark red text color */
-    border: 1px solid #990000; /* Dark red border */
+    background-color: #ffcccc;
+    color: #990000;
+    border: 1px solid #990000;
     border-radius: 8px;
-    margin-top: 20px; /* Adjusted margin-top */
+    margin-top: 20px;
 }
-
 
 .modal {
     display: none;
@@ -150,15 +152,12 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
-
-
 .hidden {
     display: none;
 }
 
-
 .greeting-container {
-    width: 110px; /* Adjust the width as needed */
+    width: 110px;
     height: 110px;
     padding: 30px;
     background-color: #ddf3e7;
@@ -171,15 +170,82 @@ body {
     font-weight: bold;
     font-size: 14px;
     border: 1px solid #ddf3e7;
-    border-radius:50%;
-    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    border-radius: 50%;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 .greeting-container img {
-    max-width: 100%; /* Ensure the image doesn't exceed the container width */
-    border-radius: 50%; 
-    /* margin-bottom: 10px;  */
+    max-width: 100%;
+    border-radius: 50%;
     width: 80px;
     height: 80px;
 }
 
+header {
+    background-color: #2ecc71;
+    color: #fff;
+    padding: 2px;
+    text-align: center;
+    width: 99%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#associations-container,
+#item-details-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 97%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    
+}
+
+.outer-container {
+    width: calc(33.33% - 20px);
+    margin-bottom: 20px;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-right: 10px; /* Add margin to create space between outer containers */
+    margin-bottom: 10px; /* Add margin to create space between outer containers */
+}
+
+.submeter-block {
+    padding: 10px;
+    flex: 1;
+}
+
+.submeter-name {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.submeter-name i {
+    margin-right: 10px;
+
+}
+
+.appliances-block {
+    margin-top: 10px; /* Add margin to create space between inner items */
+}
+
+.appliance-item {
+    background-color: #ecf0f1;
+    border: 1px solid #bdc3c7;
+    border-radius: 4px;
+    padding: 10px;
+    color: #333;
+    transition: background-color 0.3s ease;
+    margin-bottom: 5px; /* Add margin to create space between inner items */
+}
+
+.appliance-item:hover {
+    background-color: #d2d7d3;
+}

@@ -11,7 +11,7 @@ const responseData = {
                 "LED Light Bulbs"
             ]
             ,
-            "hall":["Tv","Fan"]
+            "hall":["TV"]
             ,"Bathroom":["hiter"]
         },
         "username": "abhi07",
@@ -37,6 +37,16 @@ const energyConsumptionDetails = {
         "usage_frequency": 0.15
     },
     "LED Light Bulbs": {
+        "usage_duration": 1,
+        "usage_frequency": 0.3
+    }
+    ,
+    "TV":{
+        "usage_duration": 1,
+        "usage_frequency": 0.3
+
+    },
+    "hiter":{
         "usage_duration": 1,
         "usage_frequency": 0.3
     }
