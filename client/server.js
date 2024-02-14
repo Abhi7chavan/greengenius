@@ -64,6 +64,19 @@ app.get('/licencepage.html', (req, res) => {
 
 app.use('/client/images', express.static(path.join(__dirname, 'images')));
 
+app.get('/electric.html', (req, res) => {
+    res.sendFile(path.join(__dirname,'electric', 'electric.html'));
+});
+
+app.get('/electric.js', (req, res) => {
+    res.sendFile(path.join(__dirname,'electric', 'electric.js'));
+});
+
+app.get('/electric.css', (req, res) => {
+    res.sendFile(path.join(__dirname,'electric', 'electric.css'));
+});
+
+
 
 // Start the server
 app.listen(port, () => {

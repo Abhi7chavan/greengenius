@@ -19,7 +19,7 @@ async def get_household_items(db: Session = Depends(get_db)):
 
 @router.get("/get_item_by_name/{item_name}")
 async def get_item_by_name(item_name: str, db: Session = Depends(get_db)):
-    query = "SELECT item_id, item_name, min_watt_range, max_watt_range FROM houseitem WHERE item_name = :item_name"
+    query = f"SELECT item_id, item_name, min_watt_range, max_watt_range FROM houseitem WHERE item_name = '{item_name}'"
     items = db.execute(query, {"item_name": item_name}).fetchall()
     
     if not items:

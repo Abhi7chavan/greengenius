@@ -46,4 +46,5 @@ async def get_submeter(username: str, db: Session = Depends(get_db)):
     if not submeter:
         raise HTTPException(status_code=404, detail=f"Submeter with username {username} not found")
 
+    submeter = {column.key: getattr(submeter, column.key) for column in Submeter.__table__.columns}
     return {"statuscode": 200, "data": submeter}

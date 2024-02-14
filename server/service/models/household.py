@@ -7,6 +7,3 @@ class HouseItemSchema(BaseModel):
     item_name: str
     min_watt_range: int
     max_watt_range: int
-
-    class Config:
-        orm_mode = True

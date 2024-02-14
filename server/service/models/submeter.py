@@ -4,7 +4,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.dialects.postgresql import UUID
 from pydantic import BaseModel
-from typing import List,Any
+from typing import List,Any,Dict
 
 SubmeterBase = declarative_base()
 
@@ -19,7 +19,17 @@ class Submeter(SubmeterBase):
     created_at = Column(Integer, server_default=func.extract('epoch', func.now()))
     updated_at = Column(Integer, onupdate=func.extract('epoch', func.now()), server_default='0')
 
-
+    def to_dict(self) -> Dict:
+        return {
+            "id": str(self.id),
+            "username": self.username,
+            "associations": self.associations,
+            "created_at": self.created_at,
+            "updated_at": self.updated_at
+        }
 class SubmeterData(BaseModel):
     username: str
     associations: Any
+    
+    
+    
