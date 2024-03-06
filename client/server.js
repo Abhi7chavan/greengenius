@@ -1,7 +1,17 @@
 const express = require('express');
+const http = require('http');
+const { Server } = require('socket.io');
 const path = require('path');
+const { Kafka } = require('kafkajs');
 const app = express();
 const port = 3000;
+
+const server = http.createServer(app);
+const io = new Server(server);
+
+const clientId = 'ems-household-manager';
+const groupId = 'kitchen-appliances-group';
+const topic = 'energy';
 
 // Serve static files from the 'client' directory
 app.use(express.static(path.join(__dirname, 'client')));
@@ -77,8 +87,44 @@ app.get('/electric.css', (req, res) => {
 });
 
 
+const kafka = new Kafka({
+    clientId: clientId,
+    brokers: ['172.30.109.131:9092'],
+  });
+  
+  const consumer = kafka.consumer({
+    groupId: groupId,
+  });
+  
+  const consumeMessages = async () => {
+    await consumer.connect();
+    await consumer.subscribe({ topic: topic, fromBeginning: true });
+  
+    await consumer.run({
+      eachMessage: async ({ topic, partition, message }) => {
+        const rawData = message.value.toString();
+        io.emit('message', rawData); // Use io.emit to broadcast to all connected clients
+      },
+    });
+  };
+  
+  io.on('connection', (socket) => {
+    console.log('A user connected');
+  
+    // Listen for client messages
+    socket.on('clientMessage', (data) => {
+      console.log('Received from client:', data);
+    });
+  
+    socket.on('disconnect', () => {
+      console.log('User disconnected');
+    });
+  });
+  
+  // Start Kafka consumer
+  consumeMessages();
+  
+  server.listen(port, () => {
+    console.log(`Server is listening on http://localhost:${port}`);
+  });
 
-// Start the server
-app.listen(port, () => {
-    console.log(`Server is listening at http://localhost:${port}`);
-});

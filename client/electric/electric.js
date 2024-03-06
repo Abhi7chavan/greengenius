@@ -1,57 +1,3 @@
-// const responseData = {
-//     "statuscode": 200,
-//     "data": {
-//         "associations": {
-//             "kichan": [
-//                 "Refrigerator",
-//                 "Washing Machine",
-//                 "Laptop/Desktop Computer"
-//             ],
-//             "bedroom": [
-//                 "LED Light Bulbs"
-//             ]
-//             ,
-//             "hall":["TV"]
-//             ,"Bathroom":["hiter"]
-//         },
-//         "username": "abhi07",
-//         "created_at": 1707757713,
-//         "updated_at": 0,
-//         "id": "5a0cf337-c9c9-11ee-a89a-28d0ea322e3a"
-//     }
-// };
-
-// Sample data for energy consumption details
-// const energyConsumptionDetails = {
-//     "Refrigerator": {
-//         "usage_duration": 2,
-//         "usage_frequency": 0.1,
-//         "electricity":"22 watt"
-//     },
-//     "Washing Machine": {
-//         "usage_duration": 1.5,
-//         "usage_frequency": 0.2
-//     },
-//     "Laptop/Desktop Computer": {
-//         "usage_duration": 3,
-//         "usage_frequency": 0.15
-//     },
-//     "LED Light Bulbs": {
-//         "usage_duration": 1,
-//         "usage_frequency": 0.3
-//     }
-//     ,
-//     "TV":{
-//         "usage_duration": 1,
-//         "usage_frequency": 0.3
-
-//     },
-//     "hiter":{
-//         "usage_duration": 1,
-//         "usage_frequency": 0.3
-//     }
-// };
-
 function displayAssociations(data) {
     const associationsContainer = document.getElementById('associations-container');
 
@@ -74,22 +20,40 @@ function displayAssociations(data) {
             applianceItem.className = 'appliance-item';
             applianceItem.textContent = appliance;
 
-            // Add energy consumption details to each appliance item
-            const energyDetails = getitemdata();
-            const details = energyDetails[appliance];
-            if (details) {
-                const detailsList = document.createElement('ul');
-                detailsList.className = 'details-list';
+            const detailsList = document.createElement('ul');
+            detailsList.className = 'details-list';
 
-                for (const [key, value] of Object.entries(details)) {
-                    const listItem = document.createElement('li');
-                    listItem.textContent = `${key}: ${value}`;
-                    detailsList.appendChild(listItem);
+            // Function to update details for a specific appliance
+            const updateDetails = (realTimeData) => {
+                try {
+                    const energyDetails = JSON.parse(realTimeData).items; // Parse the received real-time data
+                    const details = energyDetails[appliance];
+
+                    // Clear previous details
+                    detailsList.innerHTML = '';
+
+                    // Append new details
+                    for (const [key, value] of Object.entries(details)) {
+                        const listItem = document.createElement('li');
+                        listItem.textContent = `${key}: ${value}`;
+                        detailsList.appendChild(listItem);
+                    }
+                } catch (error) {
+                    console.error('Error updating details:', error);
                 }
+            };
 
-                applianceItem.appendChild(detailsList);
-            }
+            // Initial call to update details
+            updateDetails(data); // Pass the initial data
 
+            // Subscribe to real-time updates
+            const socket = io('http://localhost:3000');
+            socket.on('message', (realTimeData) => {
+                // Call the updateDetails function when real-time data is received
+                updateDetails(realTimeData);
+            });
+
+            applianceItem.appendChild(detailsList);
             appliancesBlock.appendChild(applianceItem);
         });
 
@@ -101,48 +65,30 @@ function displayAssociations(data) {
     }
 }
 
+
+
 function get_submeters(){
-username = localStorage.getItem("username")
-const apiUrl = `http://127.0.0.1:8000/get_submeters/${username}`;
-
-fetch(apiUrl)
-  .then(response => response.json())
-  .then(data => {
-    debugger
-    displayAssociations(data.data);
-  })
-  .catch(error => {
-    console.error('Error fetching data:', error);
-  });
-
-}
-
-function getitemdata() {
     username = localStorage.getItem("username")
-    debugger
-    const apiUrl = `http://127.0.0.1:8000/get_electric/${username}`;
-
-    return fetch(apiUrl)
-        .then(response => response.json())
-        .then(data => {
-            debugger
-            const energyConsumptionDetails = data.items;
-            return energyConsumptionDetails;
-        })
-        .catch(error => {
-            console.error('Error fetching data:', error);
-        });
-}
-
-// Use the async/await pattern to handle asynchronous code
-
+    const apiUrl = `http://127.0.0.1:8000/get_submeters/${username}`;
     
-
-
-// Call fetchData to initiate the process
-function onPageLoad() {
-get_submeters()
-}
-
-window.onload = onPageLoad;
-// displayAssociations(responseData.data);
+    fetch(apiUrl)
+      .then(response => response.json())
+      .then(data_submeters => {
+       
+        displayAssociations(data_submeters.data);
+    // Listen for server messages
+        
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+    
+    }
+    
+    function onPageLoad() {
+    
+    get_submeters()
+    }
+    
+    window.onload = onPageLoad;
+    
