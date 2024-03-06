@@ -113,7 +113,7 @@ const kafka = new Kafka({
   
     // Listen for client messages
     socket.on('clientMessage', (data) => {
-      console.log('Received from client:', data);
+      console.log('Received from client:');
     });
   
     socket.on('disconnect', () => {

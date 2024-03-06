@@ -31,11 +31,19 @@ function displayAssociations(data) {
 
                     // Clear previous details
                     detailsList.innerHTML = '';
-
                     // Append new details
-                    for (const [key, value] of Object.entries(details)) {
+                    if (details) {
+                        // Append new details
+                        for (const [key, value] of Object.entries(details)) {
+                            const listItem = document.createElement('li');
+                            listItem.textContent = `${key}: ${value}`;
+                            detailsList.appendChild(listItem);
+                        }
+                    } else {
+                        // Display a message when details are not found
                         const listItem = document.createElement('li');
-                        listItem.textContent = `${key}: ${value}`;
+                        listItem.textContent = 'Data not found';
+                        listItem.className = 'details-not-found';
                         detailsList.appendChild(listItem);
                     }
                 } catch (error) {
