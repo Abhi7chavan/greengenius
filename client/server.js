@@ -67,6 +67,9 @@ app.get('/home.css', (req, res) => {
 app.get('/home.js', (req, res) => {
     res.sendFile(path.join(__dirname,'home', 'home.js'));
 });
+app.get('/wether.css', (req, res) => {
+  res.sendFile(path.join(__dirname,'home', 'wether.css'));
+});
 
 app.get('/licencepage.html', (req, res) => {
     res.sendFile(path.join(__dirname,'home', 'licencepage.html'));

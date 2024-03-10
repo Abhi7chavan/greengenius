@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <title>Weather App</title>
+    <style>
+        .hourly-container {
+            display: flex;
+            overflow-x: auto;
+            padding: 10px;
+        }
+
+        .hourly-card {
+            flex: 0 0 auto;
+            width: 100px; /* Adjust the width as needed */
+            padding: 10px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body class="font-sans bg-gray-100 text-center m-0 p-0">
+    <div class="container mx-auto my-20 p-8 bg-white rounded-lg shadow-md" id="page1">
+        <h1 class="text-3xl">Weather App</h1>
+        <label for="cityInput" class="block mb-4">Enter City:</label>
+        <input type="text" id="cityInput" placeholder="Enter city name" class="w-full p-2 mb-6 border border-gray-300 rounded">
+        <button onclick="getNextPage()" class="px-4 py-2 bg-green-500 text-white rounded cursor-pointer hover:bg-green-600">Next</button>
+    </div>
+
+    <div class="container hidden mx-auto p-8 bg-white rounded-lg shadow-md" id="page2">
+        <h1 class="text-3xl">Weather Dashboard</h1>
+        <p id="selectedCity" class="mb-4"></p>
+
+        <div class="dashboard flex justify-between flex-wrap">
+            <div class="daily-forecast flex-1 m-4 p-6 bg-white rounded-lg shadow-md">
+                <h2 class="text-2xl">Daily Forecast</h2>
+                <div id="dailyWeather"></div>
+            </div>
+
+            <div class="current-forecast flex-1 m-4 p-6 bg-white rounded-lg shadow-md">
+                <h2 class="text-2xl">Current Weather</h2>
+                <div id="currentWeather"></div>
+            </div>
+        </div>
+
+        <div class="hourly-forecast mt-8 p-6 bg-white rounded-lg shadow-md">
+            <h2 class="text-2xl">Hourly Forecast</h2>
+            <div id="hourlyWeather" class="hourly-container">
+                <!-- Sample hourly card, you can dynamically generate these using JavaScript -->
+                <div class="hourly-card" style="align-content: center; justify-content: center;" >Loding</div>
+                
+                <!-- Add more hourly cards as needed -->
+            </div>
+            <!-- <button id="nextButton" onclick="slideHourlyForecast()" class="mt-4 px-4 py-2 bg-green-500 text-white rounded cursor-pointer hover:bg-green-600">Next</button> -->
+        </div>
+    </div>
+
+    <script src="wh.js"></script>
+</body>
+</html>
