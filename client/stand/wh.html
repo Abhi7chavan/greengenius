@@ -6,10 +6,19 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
     <title>Weather App</title>
     <style>
+
+
+        .container {
+            margin-top: 20px; /* Adjust the bottom margin as needed */
+            margin-bottom: 20px; /* Adjust the bottom margin as needed */
+            position:sticky;
+        }
+
         .hourly-container {
             display: flex;
             overflow-x: auto;
             padding: 10px;
+            background-color: rgba(231, 228, 228, 0.866);
         }
 
         .hourly-card {
@@ -20,10 +29,18 @@
             border: 1px solid #ccc;
             border-radius: 8px;
         }
+        .weather-element{
+            width: 200px;
+            background-color: rgb(243, 243, 185);
+        }
+        .weather-element p {
+            padding-bottom:8px;
+        }
+    </style>
     </style>
 </head>
 <body class="font-sans bg-gray-100 text-center m-0 p-0">
-    <div class="container mx-auto my-20 p-8 bg-white rounded-lg shadow-md" id="page1">
+    <div class="container-box mx-auto my-20 p-8 bg-white rounded-lg shadow-md" id="page1">
         <h1 class="text-3xl">Weather App</h1>
         <label for="cityInput" class="block mb-4">Enter City:</label>
         <input type="text" id="cityInput" placeholder="Enter city name" class="w-full p-2 mb-6 border border-gray-300 rounded">
@@ -31,6 +48,9 @@
     </div>
 
     <div class="container hidden mx-auto p-8 bg-white rounded-lg shadow-md" id="page2">
+        <div class="flex justify-end">
+            <button onclick="editLocation()" class="px-4 py-2 bg-blue-500 text-white rounded cursor-pointer hover:bg-blue-600">Edit Location</button>
+        </div>
         <h1 class="text-3xl">Weather Dashboard</h1>
         <p id="selectedCity" class="mb-4"></p>
 
@@ -54,8 +74,12 @@
                 
                 <!-- Add more hourly cards as needed -->
             </div>
-            <!-- <button id="nextButton" onclick="slideHourlyForecast()" class="mt-4 px-4 py-2 bg-green-500 text-white rounded cursor-pointer hover:bg-green-600">Next</button> -->
+           
         </div>
+      
+
+         
+
     </div>
 
     <script src="wh.js"></script>
