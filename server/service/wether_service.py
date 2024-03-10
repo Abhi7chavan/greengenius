@@ -18,6 +18,9 @@ async def get_city_coordinates(city: str):
         raise HTTPException(status_code=404, detail="Coordinates not found for the provided city")
     else:
         weather_data = get_weather_forecast(latitude, longitude)
+        get_airinfo = get_aqi(latitude, longitude)
+        get_aqi_info = get_airinfo['current']
+        print(get_aqi_info)
         if weather_data is None:
             raise HTTPException(status_code=404, detail="Failed to fetch weather data")
 
@@ -72,6 +75,10 @@ async def get_city_coordinates(city: str):
 
         currenttime = format_time(current_time)
         
+        airqulity_info = {
+            
+        }
+        
         result.append({"daily":{"sunrise":f"{sunrise[1]} AM",
                 "sunset":f"{sunset[1]} PM","time":daily_time}})
         result.append({"current":{"time":f"{currenttime[0]},{currenttime[1]}","isday":isday,"wind_speed":wind_speed,"humidity":humidity,"rain":rain,"temperature":tempature_current}})
@@ -125,3 +132,20 @@ def format_time(time):
     timeformat = time_24h.split()
     return timeformat
     
+def get_aqi(latitude, longitude):
+    url = "https://air-quality-api.open-meteo.com/v1/air-quality"
+    params = {
+        "latitude": latitude,
+        "longitude":longitude,
+        "current": ["carbon_monoxide", "nitrogen_dioxide", "sulphur_dioxide", "ozone", "dust", "uv_index", "ammonia"],
+        "timezone": "auto",
+        "forecast_days": 7,
+        "domains": "cams_global"
+    }
+    response = requests.get(url,params=params)
+        
+    if response.status_code == 200:
+        aqi_data = response.json()
+        return aqi_data
+    else:
+        return None

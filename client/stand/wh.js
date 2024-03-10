@@ -62,6 +62,8 @@ function displayWeather(data) {
 
     const currentWeatherBlock = document.getElementById('currentWeather');
     updateCurrentWeatherBlock_currently(currentWeatherBlock, currentWeather);
+
+    
 }
 
 function updateWeatherBlock_hourly(weatherBlock, weatherData) {
@@ -124,13 +126,32 @@ function updateWeatherBlock_daily(dailyWeatherBlock, dailyForecast){
     sunrise.classList.add('text-base');
     sunrise.textContent = `sunrise:${dailyForecast.sunrise}`;
 
+    const sunrise_icon = document.createElement('img');
+    sunrise_icon.classList.add('weather-icon', 'rounded-full');
+    sunrise_icon.style.width = '40px'; // Adjust the width as needed
+    sunrise_icon.style.height = '40px'; // Adjust the height as needed
+    sunrise_icon.style.display = 'block';
+    sunrise_icon.style.margin = 'auto';
+    const sunriseiconImagePath ='sunrise.png';
+    sunrise_icon.setAttribute('src', sunriseiconImagePath);
+
+
+    const sunset_icon = document.createElement('img');
+    sunset_icon.classList.add('weather-icon', 'rounded-full');
+    sunset_icon.style.width = '40px'; // Adjust the width as needed
+    sunset_icon.style.height = '40px'; // Adjust the height as needed
+    sunset_icon.style.display = 'block';
+    sunset_icon.style.margin = 'auto';
+    const sunseticonImagePath ='sunset.png';
+    sunset_icon.setAttribute('src', sunseticonImagePath);
+
     const sunset = document.createElement('p');
     sunset.classList.add('text-base');
     sunset.textContent = `sunset:${dailyForecast.sunset}`;
-
+    dailyWeatherBlock.appendChild(sunrise_icon);
     dailyWeatherBlock.appendChild(sunrise);
+    dailyWeatherBlock.appendChild(sunset_icon);
     dailyWeatherBlock.appendChild(sunset);
-
 }
 
 function updateCurrentWeatherBlock_currently(currentWeatherBlock, currentWeather) {
