@@ -31,15 +31,27 @@ function getWeather() {
         // If not the first visit, return to avoid unnecessary API calls
         return;
     }
-
     // Replace this with your actual API endpoint and logic to fetch weather data
     const apiUrl = `http://127.0.0.1:8000/coordinates/${selectedCity}`;
 
     fetch(apiUrl)
         .then(response => response.json())
         .then(data => {
+            const preloader = document.querySelector(".data-loader");
+
+            // Function to show the preloader
+            function showPreloader() {
+                preloader.style.display = "flex";
+            }
+        
+            // Function to hide the preloader
+            function hidePreloader() {
+                preloader.style.display = "none";
+            }
             // Handle the response and update the UI
+            showPreloader();
             displayWeather(data);
+            hidePreloader();
             // Set background image based on isday value
         })
         .catch(error => {
@@ -107,6 +119,10 @@ function updateWeatherBlock_hourly(weatherBlock, weatherData) {
         humidity.classList.add('text-base');
         humidity.textContent = `humidity: ${entry.humidity}`;
 
+        const dewpoint = document.createElement('p');
+        dewpoint.classList.add('text-base');
+        dewpoint.textContent = `dew point: ${entry.dew_point}`;
+
         const windspeed = document.createElement('p');
         windspeed.classList.add('text-base');
         windspeed.textContent = `wind speed: ${entry.wind_speed}`;
@@ -116,6 +132,7 @@ function updateWeatherBlock_hourly(weatherBlock, weatherData) {
         weatherElement.appendChild(temperature);
         weatherElement.appendChild(humidity);
         weatherElement.appendChild(windspeed);
+        weatherElement.appendChild(dewpoint);
         weatherBlock.appendChild(weatherElement);
     });
 }
@@ -128,11 +145,11 @@ function updateWeatherBlock_daily(dailyWeatherBlock, dailyForecast){
 
     const sunrise_icon = document.createElement('img');
     sunrise_icon.classList.add('weather-icon', 'rounded-full');
-    sunrise_icon.style.width = '40px'; // Adjust the width as needed
-    sunrise_icon.style.height = '40px'; // Adjust the height as needed
+    sunrise_icon.style.width = '60px'; // Adjust the width as needed
+    sunrise_icon.style.height = '60px'; // Adjust the height as needed
     sunrise_icon.style.display = 'block';
     sunrise_icon.style.margin = 'auto';
-    const sunriseiconImagePath ='sunrise.png';
+    const sunriseiconImagePath ='sunrise.gif';
     sunrise_icon.setAttribute('src', sunriseiconImagePath);
 
 
@@ -142,7 +159,7 @@ function updateWeatherBlock_daily(dailyWeatherBlock, dailyForecast){
     sunset_icon.style.height = '40px'; // Adjust the height as needed
     sunset_icon.style.display = 'block';
     sunset_icon.style.margin = 'auto';
-    const sunseticonImagePath ='sunset.png';
+    const sunseticonImagePath ='sunset.gif';
     sunset_icon.setAttribute('src', sunseticonImagePath);
 
     const sunset = document.createElement('p');
@@ -157,10 +174,13 @@ function updateWeatherBlock_daily(dailyWeatherBlock, dailyForecast){
 function updateCurrentWeatherBlock_currently(currentWeatherBlock, currentWeather) {
     currentWeatherBlock.innerHTML = '';
     
+    const temperature = document.createElement('p');
+    temperature.classList.add('text-base');
+    temperature.textContent = `${currentWeather.temperature}`;
 
     const time = document.createElement('p');
     time.classList.add('text-base');
-    time.textContent = `Time: ${currentWeather.time}`;
+    time.textContent = `${currentWeather.time}`;
 
     // set cityname 
     const cityname = document.createElement('h1');
@@ -173,19 +193,32 @@ function updateCurrentWeatherBlock_currently(currentWeatherBlock, currentWeather
     
     const icon = document.createElement('img');
     icon.classList.add('weather-icon', 'rounded-full');
-    icon.style.width = '40px'; // Adjust the width as needed
-    icon.style.height = '40px'; // Adjust the height as needed
+    icon.style.width = '35px'; // Adjust the width as needed
+    icon.style.height = '35px'; // Adjust the height as needed
     icon.style.display = 'block';
     icon.style.margin = 'auto';
     // Determine whether it's day or night based on the isday property from the weather data
-    const isDay = currentWeather.isday === 1;
+    const isDay = currentDaytime(currentWeather.time);
+    function currentDaytime(timeString) {
+        const hour = parseInt(timeString.split(' ')[1].split(':')[0], 10); // Extract the hour part
+        return hour >= 6 && hour < 18;
+    }
     
     // Use a conditional (ternary) operator to set the src attribute for the image
     const iconImagePath = isDay ? 'sun.png' : 'moon.png';
     icon.setAttribute('src', iconImagePath);
-    
     // Set alt attribute for accessibility
     icon.setAttribute('alt', isDay ? 'Sun Icon' : 'Moon Icon');
+
+    const windicon = document.createElement('img');
+    windicon.classList.add('weather-icon', 'rounded-full');
+    windicon.style.width = '60px'; // Adjust the width as needed
+    windicon.style.height = '60px'; // Adjust the height as needed
+    windicon.style.display = 'block';
+    windicon.style.margin = 'auto';
+    const windImagePath = 'turbine.gif';
+    windicon.setAttribute('src', windImagePath);
+
 
 
     const windSpeed = document.createElement('p');
@@ -195,19 +228,22 @@ function updateCurrentWeatherBlock_currently(currentWeatherBlock, currentWeather
     const humidity = document.createElement('p');
     humidity.classList.add('text-base');
     humidity.textContent = `Humidity: ${currentWeather.humidity}%`;
-
     const rain = document.createElement('p');
     rain.classList.add('text-base');
-    rain.textContent = `Rain: ${currentWeather.rain} mm`;
+   
+    if (currentWeather.rain > 0) {
+        const rainImagePath = 'rain.png';
+        icon.setAttribute('src', rainImagePath);
+    }
 
-
-    
     currentWeatherBlock.appendChild(cityname);
     currentWeatherBlock.appendChild(time);
+    currentWeatherBlock.appendChild(temperature);
     currentWeatherBlock.appendChild(icon);
-    currentWeatherBlock.appendChild(windSpeed);
     currentWeatherBlock.appendChild(humidity);
     currentWeatherBlock.appendChild(rain);
+    currentWeatherBlock.appendChild(windicon);
+    currentWeatherBlock.appendChild(windSpeed);
 }
 
 function setBodyBackground(isDay) {
@@ -216,7 +252,7 @@ function setBodyBackground(isDay) {
     if (isDay) {
         body.style.backgroundImage = "url('morning.jpg')"; // Day background image
     } else {
-        body.style.backgroundImage = "url('night.jpg')"; // Night background image
+        body.style.backgroundImage = "url('night.jpeg')"; // Night background image
     }
 
     // Adjust background properties for better visibility of content
@@ -250,3 +286,4 @@ function resetWeatherDashboard() {
     document.getElementById('hourlyWeather').innerHTML = '';
     currentIndex = 0;
 }
+

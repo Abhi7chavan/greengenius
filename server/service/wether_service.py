@@ -67,13 +67,15 @@ async def get_city_coordinates(city: str):
             hourly_lst.append(weather_info)
         result.append({"hourly":hourly_lst})    
         #current
-        current_time = weather_data['current']['time']
+        current_time = datetime.now()
+        print(current_time)
         tempature_current = weather_data['current']['temperature_2m']
         isday = weather_data['current']['is_day']
         humidity = weather_data['current']['relative_humidity_2m']
         rain = weather_data['current']['rain']
 
-        currenttime = format_time(current_time)
+        currenttime  = current_time
+        formatted_datetime = currenttime.strftime("%Y-%m-%d %H:%M:%S")
         
         airqulity_info = {
             
@@ -81,7 +83,7 @@ async def get_city_coordinates(city: str):
         
         result.append({"daily":{"sunrise":f"{sunrise[1]} AM",
                 "sunset":f"{sunset[1]} PM","time":daily_time}})
-        result.append({"current":{"time":f"{currenttime[0]},{currenttime[1]}","isday":isday,"wind_speed":wind_speed,"humidity":humidity,"rain":rain,"temperature":tempature_current}})
+        result.append({"current":{"time":f"{formatted_datetime}","isday":isday,"wind_speed":wind_speed,"humidity":humidity,"rain":rain,"temperature":f"{tempature_current}°C"}})
         return {"statuscode":200,"weather_forecast": result}
     
     
