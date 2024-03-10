@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
     <title>Weather App</title>
     <style>
+        .container-box{
+            width: 40%;
+            margin-top: 10%;
+        }
         .container {
             margin-top: 20px;
             /* Adjust the bottom margin as needed */
@@ -64,7 +68,7 @@
             width: 13px;
             height: 13px;
             border-radius: 50%;
-            background: #909090;
+            background: #575755;
             animation-timing-function: cubic-bezier(0, 1, 1, 0);
         }
 
@@ -123,8 +127,8 @@
 <body class="font-sans bg-gray-100 text-center m-0 p-0">
 
     <div class="container-box mx-auto my-20 p-8 bg-white rounded-lg shadow-md" id="page1">
-        <h1 class="text-3xl">Weather App</h1>
-        <label for="cityInput" class="block mb-4">Enter City:</label>
+        <h1 class="text-3xl">Weather Dashboard</h1>
+        <label for="cityInput" class="block mb-4"></label>
         <input type="text" id="cityInput" placeholder="Enter city name"
             class="w-full p-2 mb-6 border border-gray-300 rounded">
         <button onclick="getNextPage()"

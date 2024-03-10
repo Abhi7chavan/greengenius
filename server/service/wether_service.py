@@ -78,12 +78,17 @@ async def get_city_coordinates(city: str):
         formatted_datetime = currenttime.strftime("%Y-%m-%d %H:%M:%S")
         
         airqulity_info = {
-            
+            "carbon_monoxide":get_aqi_info['carbon_monoxide'],
+             "nitrogen_dioxide":get_aqi_info['nitrogen_dioxide'],
+             "sulphur_dioxide":get_aqi_info['sulphur_dioxide'],
+             "ozone":get_aqi_info['ozone'],
+             "dust":get_aqi_info['dust']
         }
         
         result.append({"daily":{"sunrise":f"{sunrise[1]} AM",
                 "sunset":f"{sunset[1]} PM","time":daily_time}})
         result.append({"current":{"time":f"{formatted_datetime}","isday":isday,"wind_speed":wind_speed,"humidity":humidity,"rain":rain,"temperature":f"{tempature_current}°C"}})
+        result.append({"air":airqulity_info})
         return {"statuscode":200,"weather_forecast": result}
     
     

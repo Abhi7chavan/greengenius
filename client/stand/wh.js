@@ -63,6 +63,7 @@ function displayWeather(data) {
     const hourlyForecast = data.weather_forecast[0].hourly;
     const dailyForecast = data.weather_forecast[1].daily;
     const currentWeather = data.weather_forecast[2].current;
+    const aqiWeather = data.weather_forecast[3].air;
     const isDay = data.weather_forecast[2].current.isday === 1;
     setBodyBackground(isDay);
 
@@ -70,7 +71,7 @@ function displayWeather(data) {
     updateWeatherBlock_hourly(hourlyWeatherBlock, hourlyForecast);
 
     const dailyWeatherBlock = document.getElementById('dailyWeather');
-    updateWeatherBlock_daily(dailyWeatherBlock, dailyForecast);
+    updateWeatherBlock_daily(dailyWeatherBlock, dailyForecast,aqiWeather);
 
     const currentWeatherBlock = document.getElementById('currentWeather');
     updateCurrentWeatherBlock_currently(currentWeatherBlock, currentWeather);
@@ -137,11 +138,11 @@ function updateWeatherBlock_hourly(weatherBlock, weatherData) {
     });
 }
 
-function updateWeatherBlock_daily(dailyWeatherBlock, dailyForecast){
+function updateWeatherBlock_daily(dailyWeatherBlock, dailyForecast,aqiWeather){
     dailyWeatherBlock.innerHTML = '';
     const sunrise = document.createElement('p')
     sunrise.classList.add('text-base');
-    sunrise.textContent = `sunrise:${dailyForecast.sunrise}`;
+    sunrise.textContent = `sunrise ${dailyForecast.sunrise}`;
 
     const sunrise_icon = document.createElement('img');
     sunrise_icon.classList.add('weather-icon', 'rounded-full');
@@ -164,16 +165,136 @@ function updateWeatherBlock_daily(dailyWeatherBlock, dailyForecast){
 
     const sunset = document.createElement('p');
     sunset.classList.add('text-base');
-    sunset.textContent = `sunset:${dailyForecast.sunset}`;
+    sunset.textContent = `sunset ${dailyForecast.sunset}`;
+
+
+    const co2 = document.createElement('p')
+    co2.classList.add('text-base');
+    co2.textContent = `Co2:${aqiWeather.carbon_monoxide}`;
+
+    const no2 = document.createElement('p')
+    no2.classList.add('text-base');
+    no2.textContent = `No2:${aqiWeather.nitrogen_dioxide}`;
+
+    const so2 = document.createElement('p')
+    so2.classList.add('text-base');
+    so2.textContent = `So2:${aqiWeather.sulphur_dioxide}`;
+
+    const ozone = document.createElement('p')
+    ozone.classList.add('text-base');
+    ozone.textContent = `ozone:${aqiWeather.ozone}`;
+
+    const dust = document.createElement('p')
+    dust.classList.add('text-base');
+    dust.textContent = `dust:${aqiWeather.dust}`;
+    
+    const airicon = document.createElement('img');
+    airicon.classList.add('weather-icon', 'rounded-full');
+    airicon.style.width = '60px'; // Adjust the width as needed
+    airicon.style.height = '60px'; // Adjust the height as needed
+    airicon.style.display = 'block';
+    airicon.style.margin = 'auto';
+    const airiconImagePath ='truck.gif';
+    airicon.setAttribute('src', airiconImagePath);
+
+    //check air index by Who guidelines
+
+    const airQualityData = {
+        carbon_monoxide:aqiWeather.carbon_monoxide ,
+        nitrogen_dioxide: aqiWeather.nitrogen_dioxide,
+        sulphur_dioxide: aqiWeather.sulphur_dioxide,
+        ozone: aqiWeather.ozone,
+        dust: aqiWeather.dust
+    };
+
+    function assessAirQuality(data) {
+        const results = {};
+    
+        // WHO guideline values
+        const guidelines = {
+            carbon_monoxide: 10,  // µg/m³
+            nitrogen_dioxide: 200,  // µg/m³
+            sulphur_dioxide: 20,  // µg/m³
+            ozone: 100,  // µg/m³
+            dust: 50  // µg/m³
+        };
+    
+        // Assess each pollutant
+        for (const pollutant in guidelines) {
+            if (data[pollutant] <= guidelines[pollutant]) {
+                results[pollutant] = 'Good';
+            } else {
+                results[pollutant] = 'Poor';
+            }
+        }
+    
+        return results;
+    }
+
+
+    const airQualityAssessment = assessAirQuality(airQualityData);
+
+    function assessOverallAirQuality(data) {
+        const poorPollutants = Object.values(data).filter(result => result === 'Poor');
+    
+        if (poorPollutants.length >= 3) {
+            return true;  // Return true for bad air quality
+        } else {
+            return false;  // Return false for good air quality
+        }
+    }
+
+    const overallAirQuality = assessOverallAirQuality(airQualityAssessment);
+
+    const checkair = document.createElement('img');
+    checkair.classList.add('weather-icon', 'rounded-full');
+    checkair.style.width = '60px'; // Adjust the width as needed
+    checkair.style.height = '60px'; // Adjust the height as needed
+    checkair.style.display = 'block';
+    checkair.style.margin = 'auto';
+    debugger
+    const airindexImagePath = overallAirQuality ? 'air-quality-bad.png' : 'air-quality-good.png';
+    checkair.setAttribute('src', airindexImagePath);
+
+
+    const airQualityMessages = {
+        false: 'The air quality is good. Enjoy the fresh air!',
+        true: 'The air quality is bad. Consider taking precautions.'
+    };
+
+    const airQualityMessage = airQualityMessages[overallAirQuality];
+
+    const message = document.createElement('p')
+    message.classList.add('text-base');
+    message.textContent = `${airQualityMessage}`;
+
+    
+
+
+
+    
+
     dailyWeatherBlock.appendChild(sunrise_icon);
     dailyWeatherBlock.appendChild(sunrise);
     dailyWeatherBlock.appendChild(sunset_icon);
     dailyWeatherBlock.appendChild(sunset);
+    dailyWeatherBlock.appendChild(airicon);
+    // dailyWeatherBlock.appendChild(co2);
+    // dailyWeatherBlock.appendChild(no2);
+    // dailyWeatherBlock.appendChild(so2);
+    // dailyWeatherBlock.appendChild(ozone);
+    // dailyWeatherBlock.appendChild(dust);
+    dailyWeatherBlock.appendChild(message);
+    dailyWeatherBlock.appendChild(checkair);
 }
 
 function updateCurrentWeatherBlock_currently(currentWeatherBlock, currentWeather) {
     currentWeatherBlock.innerHTML = '';
-    
+
+    // Create a container to hold temperature, time, and image
+    const infoContainer = document.createElement('div');
+    infoContainer.classList.add('flex', 'items-center', 'gap-4', 'mb-4');
+
     const temperature = document.createElement('p');
     temperature.classList.add('text-base');
     temperature.textContent = `${currentWeather.temperature}`;
@@ -237,6 +358,7 @@ function updateCurrentWeatherBlock_currently(currentWeatherBlock, currentWeather
     }
 
     currentWeatherBlock.appendChild(cityname);
+    currentWeatherBlock.appendChild(infoContainer);
     currentWeatherBlock.appendChild(time);
     currentWeatherBlock.appendChild(temperature);
     currentWeatherBlock.appendChild(icon);
@@ -285,5 +407,6 @@ function resetWeatherDashboard() {
     document.getElementById('currentWeather').innerHTML = '';
     document.getElementById('hourlyWeather').innerHTML = '';
     currentIndex = 0;
+    location.reload();
 }
 
