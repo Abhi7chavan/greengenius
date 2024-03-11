@@ -68,7 +68,6 @@ async def get_city_coordinates(city: str):
         result.append({"hourly":hourly_lst})    
         #current
         current_time = datetime.now()
-        print(current_time)
         tempature_current = weather_data['current']['temperature_2m']
         isday = weather_data['current']['is_day']
         humidity = weather_data['current']['relative_humidity_2m']

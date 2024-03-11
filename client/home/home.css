@@ -4,6 +4,7 @@ body {
     padding: 0;
     background-color: #f2f2f2;
     position: relative;
+    background-color: #0b0000;
 }
 
 .header {
@@ -12,7 +13,7 @@ body {
     align-items: center;
     padding: 10px;
     background-color: #9ccff0;
-    width: 99%;
+    width: 100%;
 }
 
 .company-name {
@@ -86,11 +87,14 @@ body {
 
 .tab-content {
     padding: 20px;
-    background-color: #fff;
+    background-image:url('client/images/blackbackground.jpg');
+    /* background-color:  #5cd6e3; */
+    background-size: cover;
+    background-repeat: no-repeat;
     border-radius: 0 0 5px 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 98%;
-    height: max-content;
+    width: 100%;
+    height:auto;
 }
 
 .tab-pane {
@@ -249,3 +253,4 @@ header {
 .appliance-item:hover {
     background-color: #d2d7d3;
 }
+

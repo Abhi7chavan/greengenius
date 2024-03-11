@@ -105,7 +105,7 @@ function updateWeatherBlock_hourly(weatherBlock, weatherData) {
         }
         
   
-        const iconImagePath = is_Day ? 'sun.png' : 'moon.png';
+        const iconImagePath = is_Day ? '/client/images/sun.png' : '/client/images/moon.png';
         icon.setAttribute('src', iconImagePath);
         
         // Set alt attribute for accessibility
@@ -150,7 +150,7 @@ function updateWeatherBlock_daily(dailyWeatherBlock, dailyForecast,aqiWeather){
     sunrise_icon.style.height = '60px'; // Adjust the height as needed
     sunrise_icon.style.display = 'block';
     sunrise_icon.style.margin = 'auto';
-    const sunriseiconImagePath ='sunrise.gif';
+    const sunriseiconImagePath ='/client/images/sunrise.gif';
     sunrise_icon.setAttribute('src', sunriseiconImagePath);
 
 
@@ -160,7 +160,7 @@ function updateWeatherBlock_daily(dailyWeatherBlock, dailyForecast,aqiWeather){
     sunset_icon.style.height = '40px'; // Adjust the height as needed
     sunset_icon.style.display = 'block';
     sunset_icon.style.margin = 'auto';
-    const sunseticonImagePath ='sunset.gif';
+    const sunseticonImagePath ='/client/images/sunset.gif';
     sunset_icon.setAttribute('src', sunseticonImagePath);
 
     const sunset = document.createElement('p');
@@ -194,7 +194,7 @@ function updateWeatherBlock_daily(dailyWeatherBlock, dailyForecast,aqiWeather){
     airicon.style.height = '60px'; // Adjust the height as needed
     airicon.style.display = 'block';
     airicon.style.margin = 'auto';
-    const airiconImagePath ='truck.gif';
+    const airiconImagePath ='/client/images/truck.gif';
     airicon.setAttribute('src', airiconImagePath);
 
     //check air index by Who guidelines
@@ -253,7 +253,7 @@ function updateWeatherBlock_daily(dailyWeatherBlock, dailyForecast,aqiWeather){
     checkair.style.display = 'block';
     checkair.style.margin = 'auto';
     debugger
-    const airindexImagePath = overallAirQuality ? 'air-quality-bad.png' : 'air-quality-good.png';
+    const airindexImagePath = overallAirQuality ? '/client/images/air-quality-bad.png' : '/client/images/air-quality-good.png';
     checkair.setAttribute('src', airindexImagePath);
 
 
@@ -326,7 +326,7 @@ function updateCurrentWeatherBlock_currently(currentWeatherBlock, currentWeather
     }
     
     // Use a conditional (ternary) operator to set the src attribute for the image
-    const iconImagePath = isDay ? 'sun.png' : 'moon.png';
+    const iconImagePath = isDay ? '/client/images/sun.png' : '/client/images/moon.png';
     icon.setAttribute('src', iconImagePath);
     // Set alt attribute for accessibility
     icon.setAttribute('alt', isDay ? 'Sun Icon' : 'Moon Icon');
@@ -337,7 +337,7 @@ function updateCurrentWeatherBlock_currently(currentWeatherBlock, currentWeather
     windicon.style.height = '60px'; // Adjust the height as needed
     windicon.style.display = 'block';
     windicon.style.margin = 'auto';
-    const windImagePath = 'turbine.gif';
+    const windImagePath = '/client/images/turbine.gif';
     windicon.setAttribute('src', windImagePath);
 
 
@@ -353,7 +353,7 @@ function updateCurrentWeatherBlock_currently(currentWeatherBlock, currentWeather
     rain.classList.add('text-base');
    
     if (currentWeather.rain > 0) {
-        const rainImagePath = 'rain.png';
+        const rainImagePath = '/client/images/rain.gif';
         icon.setAttribute('src', rainImagePath);
     }
 
@@ -369,12 +369,11 @@ function updateCurrentWeatherBlock_currently(currentWeatherBlock, currentWeather
 }
 
 function setBodyBackground(isDay) {
-    const body = document.body;
-
+    const body =  document.getElementById('weather-content');
     if (isDay) {
-        body.style.backgroundImage = "url('morning.jpg')"; // Day background image
+        body.style.backgroundImage = "url('/client/images/morning.jpg')"; // Day background image
     } else {
-        body.style.backgroundImage = "url('night.jpeg')"; // Night background image
+        body.style.backgroundImage = "url('/client/images/night.jpeg')"; // Night background image
     }
 
     // Adjust background properties for better visibility of content

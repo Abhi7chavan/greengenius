@@ -90,6 +90,10 @@ app.get('/electric.css', (req, res) => {
 });
 
 
+app.get('/wether.js', (req, res) => {
+  res.sendFile(path.join(__dirname,'home', 'wether.js'));
+});
+
 const kafka = new Kafka({
     clientId: clientId,
     brokers: ['172.30.109.131:9092'],

@@ -10,6 +10,8 @@ from service.household_service import get_item_by_name
 from confluent_kafka import Producer
 import asyncio
 import random
+from typing import Dict, Union
+from datetime import datetime,timedelta
 
 router = APIRouter()
 
@@ -55,27 +57,63 @@ async def send_realtime_data(username: str, db: Session = Depends(get_db)):
         producer.produce_message(realtime_data)
         await asyncio.sleep(2)
 
-def generate_realtime_data(household_items):
-    realtime = {"timestamp": "", "power_factor": 0.9, "voltage": 120, "total_consumption": 0, "items": {}}
+def generate_realtime_data(household_devices, current_time=None):
+    timestamp = current_time if current_time else datetime.now().strftime("%H:%M:%S")
 
-    timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
-    realtime["timestamp"] = timestamp
+    real_time_data = {"total_consumption": 0, "items": {}}
 
     total_wattage = 0
-    items_dict = {}
+    devices_data = {}
 
-    for item, details in household_items.items():
+    for device, details in household_devices.items():
         if details["is_on"]:
             wattage = random.randint(details["watt_range"][0], details["watt_range"][1])
-            status = "hot" if wattage == details["watt_range"][1] else "cool"
-            item_data = {"wattage": wattage, "status": status, "is_on": details['is_on']}
-            items_dict[item] = item_data
+            status = "high" if wattage == details["watt_range"][1] else "low"
+
+            # Update duration only if the device was on in the previous session
+            if details.get("last_state", False):
+                duration = details.get("duration", timedelta()) + timedelta(minutes=1)
+            else:
+                duration = details.get("duration", timedelta())
+
+            # Update the last_state to True for the next iteration
+            details["last_state"] = True
+
+            current_energy_consumption = (wattage / 1000) * duration.total_seconds() / 3600
+            total_consumption = details.get("total_consumption", 0) + current_energy_consumption
+
+            # Format power factor to one decimal place
+            power_factor = round(random.uniform(0.2, 0.9), 1)
+
+            # Format total consumption with a short decimal and unit
+            formatted_total_consumption = f"{total_consumption:.2f} kWh" if total_consumption > 0 else "0 kWh"
+
+            device_data = {
+                "wattage": wattage,
+                "status": status,
+                "is_on": details['is_on'],
+                "timestamp": timestamp,
+                "power_factor": power_factor,
+                "voltage": random.randint(115, 120),
+                "electric": formatted_total_consumption,
+                "energy": details.get("energy", 1.0),
+                "duration": f"Started {int(duration.total_seconds() / 60)} min ago",
+                "last_state": details["last_state"],
+                "total_consumption": total_consumption,
+            }
+
+            devices_data[device] = device_data
             total_wattage += wattage
         else:
-            item_data = {"wattage": 0, "status": "OFF"}
-            items_dict[item] = item_data
+            # If the device is turned off, set last_state to False
+            details["last_state"] = False
 
-    realtime["total_consumption"] = total_wattage
-    realtime["items"] = items_dict
+            device_data = {"wattage": 0, "status": "OFF", "electric": "0 kWh", "energy": 1.0, "duration": "Off", "last_state": details["last_state"]}
+            devices_data[device] = device_data
 
-    return realtime
+    # Format total consumption for the entire household with a short decimal and unit
+    formatted_total_wattage = f"{total_wattage:.2f} kWh" if total_wattage > 0 else "0 kWh"
+    real_time_data["total_consumption"] = formatted_total_wattage
+    real_time_data["items"] = devices_data
+
+    return real_time_data

@@ -59,6 +59,7 @@ function displayAssociations(data) {
             socket.on('message', (realTimeData) => {
                 // Call the updateDetails function when real-time data is received
                 updateDetails(realTimeData);
+                console.log(realTimeData);
             });
 
             applianceItem.appendChild(detailsList);
