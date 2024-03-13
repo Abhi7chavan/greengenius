@@ -161,7 +161,9 @@ body {
 }
 
 .greeting-container {
-    width: 110px;
+    margin-bottom: 70px;
+    margin-right: 8px;
+    width: 140px;
     height: 110px;
     padding: 30px;
     background-color: #ddf3e7;

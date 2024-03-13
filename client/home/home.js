@@ -119,5 +119,5 @@ function simulateUserLogin() {
     // Automatically close the treeDiv after 5 seconds
     setTimeout(() => {
         treeDiv.classList.add('hidden');
-    }, 5000); // 5000 milliseconds (5 seconds)
+    }, 3000); // 5000 milliseconds (5 seconds)
 }

@@ -3,8 +3,6 @@ import json
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from service.models.database import get_db
-from service.models.my_redis import redis_client
-from fastapi.security import OAuth2PasswordRequestForm
 from service.submeters_service import get_submeter
 from service.household_service import get_item_by_name
 from confluent_kafka import Producer
@@ -15,11 +13,15 @@ from datetime import datetime,timedelta
 
 router = APIRouter()
 
-def delivery_report(err, msg):
-    if err is not None:
-        print('Message delivery failed: {}'.format(err))
-    else:
-        print('Message delivered to {} [{}]'.format(msg.topic(), msg.partition()))
+
+from confluent_kafka import Producer
+from fastapi import Depends
+from sqlalchemy.orm import Session
+from fastapi.routing import APIRouter
+import asyncio
+import json
+
+router = APIRouter()
 
 class KafkaProducer:
     def __init__(self, client_id='ems-household-manager'):
@@ -30,13 +32,23 @@ class KafkaProducer:
         self.topic = 'energy'
 
     def produce_message(self, message):
-        self.producer.produce(topic=self.topic, value=json.dumps(message), callback=delivery_report)
+        self.producer.produce(topic=self.topic, value=json.dumps(message), callback=self.delivery_report)
         self.producer.flush()
 
-producer = KafkaProducer()
+    def delivery_report(self, err, msg):
+        if err is not None:
+            print(f'Message delivery failed: {err}')
+        else:
+            print(f'Message delivered to {msg.topic()} [{msg.partition()}]')
 
-@router.get("/send_realtime_data/{username}")
-async def send_realtime_data(username: str, db: Session = Depends(get_db)):
+    def close(self):
+        self.producer.flush(timeout=5)
+        self.producer.close()
+
+producer = KafkaProducer()
+realtime_data_task = None  # Global variable to store the task reference
+
+async def send_realtime_data_worker(username, db):
     submeter_data = await get_submeter(username, db)
     sub_data = submeter_data['data']
     associations = sub_data.get('associations', {})
@@ -52,10 +64,33 @@ async def send_realtime_data(username: str, db: Session = Depends(get_db)):
         data = data[0]
         household_items[data[1]] = {"watt_range": (data[2], data[3]), "is_on": True, "status": "cool"}
 
-    while True:
-        realtime_data = generate_realtime_data(household_items)
-        producer.produce_message(realtime_data)
-        await asyncio.sleep(2)
+    try:
+        while True:
+            realtime_data = generate_realtime_data(household_items)
+            producer.produce_message(realtime_data)
+            await asyncio.sleep(2)
+    except asyncio.CancelledError:
+        pass
+    finally:
+        producer.close()
+
+@router.get("/send_realtime_data/{username}")
+async def send_realtime_data(username: str, db: Session = Depends(get_db)):
+    global realtime_data_task
+    if realtime_data_task and not realtime_data_task.done():
+        return {"message": "Real-time data generation is already running."}
+
+    realtime_data_task = asyncio.create_task(send_realtime_data_worker(username, db))
+    return {"message": "Real-time data generation started."}
+
+@router.post("/stop_realtime_data")
+async def stop_realtime_data_route():
+    global realtime_data_task
+    if realtime_data_task and not realtime_data_task.done():
+        realtime_data_task.cancel()
+        return {"message": "Stopping real-time data generation."}
+    else:
+        return {"message": "Real-time data generation is not running."}
 
 def generate_realtime_data(household_devices, current_time=None):
     timestamp = current_time if current_time else datetime.now().strftime("%H:%M:%S")
