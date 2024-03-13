@@ -89,9 +89,9 @@ def generate_realtime_data(household_devices, current_time=None):
             formatted_total_consumption = f"{total_consumption:.2f} kWh" if total_consumption > 0 else "0 kWh"
 
             device_data = {
+                "is_on": details['is_on'],
                 "wattage": wattage,
                 "status": status,
-                "is_on": details['is_on'],
                 "timestamp": timestamp,
                 "power_factor": power_factor,
                 "voltage": random.randint(115, 120),
@@ -99,7 +99,7 @@ def generate_realtime_data(household_devices, current_time=None):
                 "energy": details.get("energy", 1.0),
                 "duration": f"Started {int(duration.total_seconds() / 60)} min ago",
                 "last_state": details["last_state"],
-                "total_consumption": total_consumption,
+                "current_consumption": current_energy_consumption,
             }
 
             devices_data[device] = device_data

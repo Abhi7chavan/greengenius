@@ -27,30 +27,63 @@ function displayAssociations(data) {
             const updateDetails = (realTimeData) => {
                 try {
                     const energyDetails = JSON.parse(realTimeData).items; // Parse the received real-time data
+                    let total_consumption = JSON.parse(realTimeData).total_consumption;
                     const details = energyDetails[appliance];
-
+            
                     // Clear previous details
                     detailsList.innerHTML = '';
+            
+                    // Display total consumption
+                    const total_consumption_shower = document.createElement('p');
+                    total_consumption_shower.textContent = `Total Consumption: ${total_consumption}`;
+                    total_consumption_shower.style.fontWeight = 'bold';
+                    detailsList.appendChild(total_consumption_shower);
+            
                     // Append new details
-                    if (details) {
-                        // Append new details
-                        for (const [key, value] of Object.entries(details)) {
+                    try {
+                        if (details) {
+                            // Append new details
+                            for (const [key, value] of Object.entries(details)) {
+                                const listItem = document.createElement('li');
+                                const ison = document.createElement('img');
+                                ison.classList.add('weather-icon', 'rounded-full');
+                                ison.style.width = '40px'; // Adjust the width as needed
+                                ison.style.height = '40px'; // Adjust the height as needed
+                                ison.style.display = 'block';
+                                ison.style.margin = 'auto';
+                                const isonImagePath = '/client/images/switch.png';
+                                const isoffImagePath = '/client/images/turn-off.png';
+            
+                                if (key === "is_on") {
+                                    if (value === true) {
+                                        ison.setAttribute('src', isonImagePath);
+                                    } else {
+                                        ison.setAttribute('src', isoffImagePath);
+                                    }
+                                    detailsList.appendChild(ison);
+                                } else {
+                                    listItem.textContent = `${key}: ${value}`;
+                                    detailsList.appendChild(listItem);
+                                }
+                            }
+                        } else {
+                            // Display a message when details are not found
                             const listItem = document.createElement('li');
-                            listItem.textContent = `${key}: ${value}`;
+                            listItem.textContent = 'Data not found';
+                            listItem.className = 'details-not-found';
                             detailsList.appendChild(listItem);
                         }
-                    } else {
-                        // Display a message when details are not found
-                        const listItem = document.createElement('li');
-                        listItem.textContent = 'Data not found';
-                        listItem.className = 'details-not-found';
-                        detailsList.appendChild(listItem);
+                    } catch (error) {
+                        console.error('Error updating details:', error);
                     }
                 } catch (error) {
-                    console.error('Error updating details:', error);
+                    console.error('Error parsing real-time data:', error);
                 }
             };
-
+            
+                    
+            
+                    
             // Initial call to update details
             updateDetails(data); // Pass the initial data
 
@@ -59,7 +92,6 @@ function displayAssociations(data) {
             socket.on('message', (realTimeData) => {
                 // Call the updateDetails function when real-time data is received
                 updateDetails(realTimeData);
-                console.log(realTimeData);
             });
 
             applianceItem.appendChild(detailsList);

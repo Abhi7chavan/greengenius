@@ -28,6 +28,7 @@ header {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between; /* Ensure flex items are evenly distributed */
+    margin-left: 30px;
 }
 
 .outer-container {
