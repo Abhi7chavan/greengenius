@@ -40,7 +40,7 @@
                 });
 
                 if (response.ok) {
-                    document.getElementById('status').innerText = 'Live data is running for Mike.';
+                    document.getElementById('status').innerText = `Live data is running for ${username}.`;
                     document.getElementById('stopLiveData').removeAttribute('disabled');
                     this.setAttribute('disabled', 'disabled');
                 } else {
