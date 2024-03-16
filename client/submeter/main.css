@@ -1,0 +1,112 @@
+body {
+    background-color: #dedada;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: url(/client/images/household1.jpeg);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+h1 {
+    text-align: center;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: #000000;
+    justify-content: center;
+    position: absolute;
+    margin-bottom: 700px;
+}
+
+.submeterBlock {
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 10px;
+    background-color: #fff;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.blockTitle {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+label {
+    font-weight: bold;
+    margin-right: 10px;
+    font-size: 14px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+select {
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+button {
+    padding: 10px;
+    font-size: 16px;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.selectedItems {
+    margin-top: 10px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-weight: bold;
+    border: 1px solid rgb(91, 221, 180);
+    background-color: rgba(132, 227, 125, 0.571);
+    padding: 2px;
+    align-items: center;
+}
+
+.selectedItems label {
+    margin-right: 5px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-weight: bold;
+}
+
+.selectedItems span {
+    margin-right: 10px;
+    display: inline-block;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-weight: bold;
+}
+.Submit {
+    text-align: center;
+    margin-top: 20px;
+}
+
+#submitButton {
+    padding: 10px;
+    font-size: 16px;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#submitButton:hover {
+    background-color: #45a049;
+}
+

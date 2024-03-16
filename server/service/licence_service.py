@@ -6,9 +6,8 @@ from service.user_service import create_user, UserData, get_user
 from service.permission_service import create_permission
 from fastapi import APIRouter, HTTPException
 from sqlalchemy.orm import Session
-from datetime import datetime, timezone, timedelta
 from service.models.database import get_db
-from fastapi import FastAPI, Depends
+from fastapi import Depends
 
 router = APIRouter()
 @router.post("/submit_license")
@@ -48,18 +47,13 @@ async def submit_license(data: LicenseData,db: Session = Depends(get_db)):
 
         
         result = await create_user(user_data, db)
-        data = await get_user(result['message'],db)
-        data= json.loads(data)
-        permission = await create_permission(data,db)
-        # print(permission)
+        userdata = await get_user(result['message'],db)
+        permission = await create_permission(userdata['data'],db)
         
-        
-        
-        #create_permisson for user
         
 
         # Return the created license
-        return {"statuscode":200,"message":f"User successfully created!"}
+        return {"statuscode":200,"message":result}
 
     except Exception as e:
         # Handle any exceptions (e.g., validation errors, database errors)

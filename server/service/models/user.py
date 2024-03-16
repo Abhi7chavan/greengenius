@@ -22,7 +22,6 @@ class User(UserBase):
     created_at = Column(Integer, server_default=func.extract('epoch', func.now()))
     updated_at = Column(Integer, onupdate=func.extract('epoch', func.now()), server_default='0') 
 
-
 class UserData(BaseModel):
     username: str
     email: str

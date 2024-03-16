@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>Support Application</title>
+</head>
+<body class="bg-gray-100 font-sans">
+    <div class="container mx-auto p-4">
+        <h1 class="text-4xl font-bold mb-6">Support</h1>
+
+        <div class="flex items-center space-x-4 mb-8">
+            <button id="startLiveData" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline-green active:bg-green-800">
+                Start Live Data
+            </button>
+            <button id="stopLiveData" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline-red active:bg-red-800" disabled>
+                Stop Live Data
+            </button>
+            <a href="#" id="backButton" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline-blue active:bg-blue-800">
+                Back
+            </a>
+        </div>
+
+        <div class="bg-white p-6 rounded shadow-md">
+            <p class="text-gray-700">Live data status:</p>
+            <div id="status" class="text-lg font-semibold mt-2"></div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('startLiveData').addEventListener('click', async function () {
+            try {
+                const username = localStorage.getItem('username');
+                const response = await fetch(`http://127.0.0.1:8000/send_realtime_data/${username}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                if (response.ok) {
+                    document.getElementById('status').innerText = `Live data is running for ${username}.`;
+                    document.getElementById('stopLiveData').removeAttribute('disabled');
+                    this.setAttribute('disabled', 'disabled');
+                } else {
+                    console.error('Failed to start live data for Mike.');
+                }
+            } catch (error) {
+                console.error('Error while starting live data:', error);
+            }
+        });
+
+        document.getElementById('stopLiveData').addEventListener('click', async function () {
+            try {
+                const response = await fetch('http://127.0.0.1:8000/stop_realtime_data', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                if (response.ok) {
+                    document.getElementById('status').innerText = 'Live data stopped.';
+                    document.getElementById('startLiveData').removeAttribute('disabled');
+                    this.setAttribute('disabled', 'disabled');
+                } else {
+                    console.error('Failed to stop live data.');
+                }
+            } catch (error) {
+                console.error('Error while stopping live data:', error);
+            }
+        });
+
+        document.getElementById('backButton').addEventListener('click', function () {
+            // Add the URL of your home page or use window.history.back() to go back to the previous page.
+            window.location.href = '/home.html';
+        });
+    </script>
+</body>
+</html>
