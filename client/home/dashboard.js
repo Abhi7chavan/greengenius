@@ -43,11 +43,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function addWidget(widgetType) {
         const widget = createWidget(widgetType);
-        widgetContainer.appendChild(widget);
+        widgetContainer.appendChild(widget[0]);
+        showchart(widgetType,widget[1],widget[2]);
         document.getElementById('addWidgetModal').classList.add('hidden');
     }
 
-    function createWidget(widgetType) {
+    function createWidget() {
         const widget = document.createElement("div");
         widget.classList.add("widget", "bg-white", "p-4", "rounded", "shadow");
     
@@ -55,12 +56,15 @@ document.addEventListener("DOMContentLoaded", function () {
         const chartDivId = `chart${widgetCounter}`; // Generate unique ID
         chartDiv.setAttribute("id", chartDivId);
         chartDiv.style.width = "100%";
-        chartDiv.style.height = "300px"; // Adjust the height as needed
-    
+        chartDiv.style.height = "400px"; // Adjust the height as needed
         widget.appendChild(chartDiv);
         widgetCounter++;
-    
         // Create AmCharts chart based on widget type
+        return [widget,chartDiv,chartDivId];
+    }
+
+    function showchart(widgetType,chartDivId,chartDivId){
+
         if (widgetType === 'line') {
             createLineChart(chartDivId);
         } else if (widgetType === 'bar') {
@@ -68,10 +72,8 @@ document.addEventListener("DOMContentLoaded", function () {
         } else if (widgetType === 'pie') {
             createPieChart(chartDivId);
         } else if (widgetType === 'sanky') {
-            createSankeyChart(chartDivId);
+            createElectricityConsumptionGaugeChart(chartDivId);
         }
-    
-        return widget;
     }
 
     // Function to create a line chart
@@ -125,7 +127,75 @@ document.addEventListener("DOMContentLoaded", function () {
         series.columns.template.fill = am4core.color("#FF6600");
     }
 
+    function createPieChart(chartDivId) {
+        // Create chart instance
+        var chart = am4core.create(chartDivId, am4charts.PieChart);
+    
+        // Add dummy data
+        chart.data = [
+            { category: "Category 1", value: 200 },
+            { category: "Category 2", value: 450 },
+            { category: "Category 3", value: 600 }
+            // Add more data points as needed
+        ];
+    
+        // Add and configure pie series
+        var pieSeries = chart.series.push(new am4charts.PieSeries());
+        pieSeries.dataFields.value = "value";
+        pieSeries.dataFields.category = "category";
+    
+        // Add labels
+        chart.innerRadius = am4core.percent(50);
+        pieSeries.labels.template.disabled = true;
+        pieSeries.ticks.template.disabled = true;
+    
+        // Add legend
+        chart.legend = new am4charts.Legend();
+    }
 
-}
 
-)
+    function createElectricityConsumptionGaugeChart(chartDivId) {
+        // Create chart instance
+        var chart = am4core.create(chartDivId, am4charts.GaugeChart);
+    
+        // Create axis
+        var axis = chart.xAxes.push(new am4charts.ValueAxis());
+    
+        // Set min and max values
+        axis.min = 0;
+        axis.max = 100;
+    
+        // Create ranges
+        var range = axis.axisRanges.create();
+        range.value = 0;
+        range.endValue = 50;
+        range.axisFill.fillOpacity = 1;
+        range.axisFill.fill = am4core.color("#2AC5D9");
+        range.axisFill.zIndex = -1;
+    
+        var range2 = axis.axisRanges.create();
+        range2.value = 50;
+        range2.endValue = 100;
+        range2.axisFill.fillOpacity = 1;
+        range2.axisFill.fill = am4core.color("#E04242");
+        range2.axisFill.zIndex = -1;
+    
+        // Add hand
+        var hand = chart.hands.push(new am4charts.ClockHand());
+    
+        // Configure hand
+        hand.fill = am4core.color("#3E517A");
+        hand.stroke = am4core.color("#3E517A");
+        hand.innerRadius = am4core.percent(20);
+        hand.radius = am4core.percent(80);
+        hand.startWidth = 10;
+    
+        // Set the value
+        hand.showValue(75, 40, am4core.ease.cubicOut);
+    }
+    
+
+    
+    
+
+})
