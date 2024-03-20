@@ -59,6 +59,10 @@ app.get('/home.html', (req, res) => {
     res.sendFile(path.join(__dirname,'home', 'home.html'));
 });
 
+app.get('/dashboard.js', (req, res) => {
+  res.sendFile(path.join(__dirname,'home', 'dashboard.js'));
+});
+
 app.get('/support.html', (req, res) => {
   res.sendFile(path.join(__dirname,'home', 'support.html'));
 });
