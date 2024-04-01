@@ -15,6 +15,6 @@ kakfa path linux wsl
 export CONFLUENT_HOME=~/confluent-6.1.0
 export PATH=$CONFLUENT_HOME/bin:$PATH
 
-kakfa service start - 
+kakfa service start -- 
 confluent local services start   
 
