@@ -29,7 +29,7 @@ loginBtn.addEventListener("click", async (event) => {
 
     const data = await response.json();
     debugger
-    if (response.ok) {
+    if (data.statuscode==200) {
       // Successful login
       console.log("Login successful:", data);
       const userid = data.userid
@@ -39,7 +39,7 @@ loginBtn.addEventListener("click", async (event) => {
     } else {
       // Failed login
       console.error("Login failed:", data.message);
-      alert("Login failed. Please check your credentials.");
+      document.getElementById('errorMessage').innerText =data.message;
     }
   } catch (error) {
     console.error("Error during login:", error);

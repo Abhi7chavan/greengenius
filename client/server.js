@@ -17,8 +17,12 @@ const topic = 'energy';
 app.use(express.static(path.join(__dirname, 'client')));
 
 // Define a route for the root URL
-app.get('/', (req, res) => {
+app.get('/licence.html', (req, res) => {
     res.sendFile(path.join(__dirname,'licence', 'licence.html'));
+});
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname,'login', 'login.html'));
 });
 
 app.get('/licence/licence.js', (req, res) => {

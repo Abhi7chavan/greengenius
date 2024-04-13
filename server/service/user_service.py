@@ -50,16 +50,13 @@ async def get_user(username: str, db: Session = Depends(get_db)):
 @router.post("/login")
 async def login(request_data: dict, db: Session = Depends(get_db)):
     try:
-        print(request_data)
-        print(type(request_data))
         user = db.query(User).filter(User.username == request_data['username']).first()
-        print(user)
         if user and user.password == request_data['password']:  # Note: This is for demonstration purposes. Use secure password hashing in production.
             # Create JWT token
             access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
             access_token = create_access_token(data={"sub": user.username}, expires_delta=access_token_expires)
 
-            return {"access_token": access_token, "userid": user.id, "message": "Login successful"}
+            return {"statuscode":200,"access_token": access_token, "userid": user.id, "message": "Login successful"}
         else:
             return {"statuscode": 401, "message": "Invalid credentials"}
 

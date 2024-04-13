@@ -400,3 +400,17 @@ form.sign-in-form {
     left: 50%;
   }
 }
+
+.signup{
+
+  background-color: white;
+  border: 1px white solid;
+  font-weight: bold;
+}
+
+.signup a{
+  text-decoration: none;
+  font-size: 14px;
+  color: rgb(71, 43, 97);
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
