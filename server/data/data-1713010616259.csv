@@ -1,0 +1,33 @@
+"item_id","item_name","min_watt_range","max_watt_range"
+1,"Toaster",800,1200
+2,"Blender",300,700
+3,"Coffee Maker",800,1400
+4,"Microwave",700,1200
+5,"Electric Kettle",1200,1500
+6,"Refrigerator",150,400
+7,"Washing Machine",500,800
+8,"Dryer",1000,4000
+9,"Dishwasher",1200,1500
+10,"Iron",1000,2000
+11,"Vacuum Cleaner",600,1500
+12,"Air Conditioner",1000,4000
+13,"Television",60,200
+14,"Laptop",50,100
+15,"Hair Dryer",800,1800
+16,"Toaster Oven",800,1500
+17,"Fan",50,150
+18,"Heater",800,1500
+19,"Clock Radio",5,20
+20,"Sewing Machine",50,100
+21,"Electric Razor",5,15
+22,"Food Processor",400,800
+23,"Alarm Clock",5,10
+24,"Electric Blanket",50,200
+25,"Smoke Detector",5,10
+26,"Hair Clippers",5,15
+27,"Curling Iron",25,100
+28,"Garbage Disposal",500,1500
+29,"Space Heater",800,1500
+30,"Electric Can Opener",40,80
+31,"Hand Mixer",100,300
+32,"Digital Clock",5,10
