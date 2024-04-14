@@ -5,7 +5,7 @@ greengenius is ems application for household items
 http://localhost:9021/
 
 
-**`Application Overview`** |
+Application Overview
 ------------------- |
 
 <div align="center">
