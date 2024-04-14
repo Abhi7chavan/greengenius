@@ -3,8 +3,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from service.models.permission import PermissionBase
 from service.models.licence import Base
-from service.models.user import UserBase
+from service.models.user import Base
 from service.models.submeter import SubmeterBase
+from service.models.household import houseitembase
 from service.models.database import engine
 from service.models.app import app
 import os
@@ -14,9 +15,11 @@ import importlib
 # Call this function during app startup to create the database schema
 def create_database():
     Base.metadata.create_all(bind=engine)
-    UserBase.metadata.create_all(bind=engine)
+    Base.metadata.create_all(bind=engine)
     PermissionBase.metadata.create_all(bind=engine)
     SubmeterBase.metadata.create_all(bind=engine)
+    houseitembase.metadata.create_all(bind=engine)
+    
 @app.on_event("startup")
 async def startup_event():
     create_database()
