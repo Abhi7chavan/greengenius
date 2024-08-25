@@ -3,7 +3,6 @@ from fastapi import APIRouter, HTTPException, Depends ,status
 from sqlalchemy.orm import Session 
 from service.models.household import HouseItemSchema
 from service.models.database import get_db
-from service.models.my_redis import redis_client
 
 
 

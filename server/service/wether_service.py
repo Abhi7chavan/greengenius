@@ -15,7 +15,7 @@ router = APIRouter()
 async def get_city_coordinates(city: str):
     latitude, longitude = get_coordinates(city)
     if latitude is None or longitude is None:
-        raise HTTPException(status_code=404, detail="Coordinates not found for the provided city")
+        return {"statuscode":404,"detail":"weather_forecast Coordinates not found for the provided city"}
     else:
         weather_data = get_weather_forecast(latitude, longitude)
         get_airinfo = get_aqi(latitude, longitude)

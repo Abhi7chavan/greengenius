@@ -104,6 +104,7 @@
                     try {
                         const response = await fetch(`http://127.0.0.1:8000/get_user/${username}`);
                         const data = await response.json();
+
                         // Update the HTML with user data
                         const userDetailsTable = document.getElementById('userDetailsTable');
                         userDetailsTable.innerHTML = `

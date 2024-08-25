@@ -3,7 +3,6 @@ from fastapi import APIRouter, HTTPException, Depends ,status
 from sqlalchemy.orm import Session 
 from service.models.user import User, UserData
 from service.models.database import get_db
-from service.models.my_redis import redis_client
 from jose import JWTError, jwt
 from fastapi.security import OAuth2PasswordRequestForm
 import ast
@@ -56,7 +55,7 @@ async def login(request_data: dict, db: Session = Depends(get_db)):
             access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
             access_token = create_access_token(data={"sub": user.username}, expires_delta=access_token_expires)
 
-            return {"statuscode":200,"access_token": access_token, "userid": user.id, "message": "Login successful"}
+            return {"statuscode":200,"access_token": access_token, "userid": user.id,"username":user.username ,"message": "Login successful"}
         else:
             return {"statuscode": 401, "message": "Invalid credentials"}
 

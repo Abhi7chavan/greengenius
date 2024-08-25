@@ -28,12 +28,14 @@ loginBtn.addEventListener("click", async (event) => {
     });
 
     const data = await response.json();
-    debugger
     if (data.statuscode==200) {
       // Successful login
       console.log("Login successful:", data);
+      debugger
       const userid = data.userid
+      const username = data.username
       localStorage.setItem('userid', userid);
+      localStorage.setItem('username', username);
       // Redirect to the dashboard or perform other actions
       window.location.href = "/home.html";
     } else {

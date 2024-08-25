@@ -2,7 +2,6 @@ from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
 from service.models.permission import Permission,PermissionData
 from service.models.database import get_db
-from service.models.my_redis import redis_client
 from sqlalchemy import select
 import json
 

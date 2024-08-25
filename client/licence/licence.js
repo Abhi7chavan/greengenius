@@ -45,6 +45,7 @@ function createUserAndNavigate() {
         })
         .then(response => response.json())
         .then(data => {
+
             if (data.statuscode != 200){
                 document.getElementById('errorMessage').innerText =data.message.error;
             }
