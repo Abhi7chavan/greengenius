@@ -40,7 +40,15 @@ class Escalation(Base):
     escalation_name = Column(String, nullable=False)
     user_id = Column(UUID(as_uuid=True), ForeignKey('meta.users.id'))
     user = relationship(User)  # Establish the relationship with the User table
-    mobile = Column(ARRAY(Integer), unique=True)
+    mobile = Column(ARRAY(String), unique=True)
     email = Column(ARRAY(String), unique=True)
     created_at = Column(Integer, server_default=func.extract('epoch', func.now()))
     updated_at = Column(Integer, onupdate=func.extract('epoch', func.now()), server_default='0')
+    
+class EscalationSchema(BaseModel):
+    escalation_name: str
+    user_id: str
+    mobile: List[str] = []
+    email: List[str] = []
+    
+    
