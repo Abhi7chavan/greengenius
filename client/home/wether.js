@@ -74,7 +74,7 @@ function displayWeather(data) {
     updateWeatherBlock_daily(dailyWeatherBlock, dailyForecast,aqiWeather);
 
     const currentWeatherBlock = document.getElementById('currentWeather');
-    updateCurrentWeatherBlock_currently(currentWeatherBlock, currentWeather);
+    updateCurrentWeatherBlock_currently(currentWeatherBlock, currentWeather,isDay);
 
     
 }
@@ -288,7 +288,7 @@ function updateWeatherBlock_daily(dailyWeatherBlock, dailyForecast,aqiWeather){
     dailyWeatherBlock.appendChild(checkair);
 }
 
-function updateCurrentWeatherBlock_currently(currentWeatherBlock, currentWeather) {
+function updateCurrentWeatherBlock_currently(currentWeatherBlock, currentWeather,isDay) {
     currentWeatherBlock.innerHTML = '';
 
     // Create a container to hold temperature, time, and image
@@ -319,7 +319,6 @@ function updateCurrentWeatherBlock_currently(currentWeatherBlock, currentWeather
     icon.style.display = 'block';
     icon.style.margin = 'auto';
     // Determine whether it's day or night based on the isday property from the weather data
-    const isDay = currentDaytime(currentWeather.time);
     function currentDaytime(timeString) {
         const hour = parseInt(timeString.split(' ')[1].split(':')[0], 10); // Extract the hour part
         return hour >= 6 && hour < 18;
