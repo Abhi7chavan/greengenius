@@ -26,7 +26,7 @@ router = APIRouter()
 class KafkaProducer:
     def __init__(self, client_id='ems-household-manager'):
         self.producer = Producer({
-            "bootstrap.servers": "172.30.109.131:9092",
+            "bootstrap.servers": "localhost:9092",
             "client.id": client_id
         })
         self.topic = 'energy'

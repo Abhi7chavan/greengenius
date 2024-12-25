@@ -108,7 +108,7 @@ app.get('/wether.js', (req, res) => {
 
 const kafka = new Kafka({
     clientId: clientId,
-    brokers: ['172.30.109.131:9092'],
+    brokers: ['localhost:9092'],
   });
   
   const consumer = kafka.consumer({
