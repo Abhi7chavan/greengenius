@@ -46,7 +46,7 @@ class KafkaProducer:
         self.producer.close()
 
 producer = KafkaProducer()
-realtime_data_task = None  # Global variable to store the task reference
+realtime_data_task = None 
 
 async def send_realtime_data_worker(username, db):
     submeter_data = await get_submeter(username, db)
